@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import Cookies from 'js-cookie';
 import Axios from 'axios';
 const Admin = () => {
+    const [eventos, setEventos] = useState([]);
+    const [lugares, setLugares] = useState([]);
     const eventoForm = useRef(null);
     const lugarForm = useRef(null);
     const pistaForm = useRef(null);
@@ -30,6 +32,18 @@ const Admin = () => {
         }else{
             window.location.replace("/");
         }
+
+        Axios.get(apiUrl+"Rutas/ObtenerRutas").then((result) => {
+            setEventos(result.data);
+        }).catch((error) => {
+            console.error("Hubo un error al comprobar los eventos", error);
+        });
+
+        Axios.get(apiUrl+"Cordenadas/ObtenerCordenadas").then((result) => {
+            setLugares(result.data);
+        }).catch((error) => {
+            console.error("Hubo un error al comprobar los eventos", error);
+        });
     }, []);
 
     const agregarEvento = () =>{
@@ -91,7 +105,18 @@ const Admin = () => {
                 });
                 break;
             case 'lugar':
-                console.log("lugar");
+                Axios.post(apiUrl+"Cordenadas/CrearCordenada", {
+                    cordTitulo:event.target.elements.nombre.value,
+                    cordRuta:event.target.elements.evento.value,
+                    cordLongitud:event.target.elements.longitud.value,
+                    cordLatitud:event.target.elements.latitud.value
+                }).then((result) => {
+                   if(result){
+                    alert("Lugar creado con exito.")
+                   }
+                }).catch((error) => {
+                    console.error("Hubo un error al crear el evento", error);
+                });
                 break;
             case 'pista':
                 Axios.post(apiUrl+"Pistas/CrearPista", {
@@ -99,7 +124,7 @@ const Admin = () => {
                     pistaCord:1
                 }).then((result) => {
                    if(result){
-                    alert("Pista insertada con exito.")
+                    alert("Pista creada con exito.")
                    }
                 }).catch((error) => {
                     console.error("Hubo un error al crear la pista", error);
@@ -132,23 +157,31 @@ const Admin = () => {
             <h2 className='text-xl mb-8'>Agregar Lugar</h2>
             <label htmlFor="">Seleccionar Evento</label>
             <select name="evento" id="">
-                <option value="1">Primer Evento</option>
-                <option value="2">Segundo Evento</option>
-                <option value="3">Tercer Evento</option>
+                    {eventos.map(evento => (
+                        <option key={evento.rutas_id} value={evento.rutas_id}>
+                            {evento.rutas_nombre}
+                        </option>
+                    ))}
             </select>
             <label className='mt-4' htmlFor="">Nombre del Lugar</label>
-            <input className='border-b-2 border-green-400 mt-2' type="text" />
-            <input type="text" value={longitud} hidden />
-            <input type="text" value={latitud} hidden />
-            <input type="text" name="form" value='lugar' hidden />
+            <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
+            <label className='mt-4' htmlFor="">Longitud</label>
+            <input className='border-b-2 border-green-400 mt-2' type="text" name="longitud" />
+            <label className='mt-4' htmlFor="">Latitud</label>
+            <input className='border-b-2 border-green-400 mt-2' type="text" name="latitud" />
+            <input className='border-b-2 border-green-400 mt-2' type="text" name="form" value='lugar' hidden />
             <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
         </form>
 
         <form ref={pistaForm} onSubmit={handleSubmit} className="grid justify-items-center alig-center hidden w-80 mt-14" action="">
             <h2 className='text-xl mb-8'>Agregar Pista</h2>
             <label htmlFor="">Seleccionar Lugar</label>
-            <select name="" id="">
-                <option value=""></option>
+            <select name="lugar" id="">
+                {lugares.map(lugar => (
+                        <option key={lugar.cords_id} value={lugar.cords_id}>
+                            {lugar.cords_titulo}
+                        </option>
+                    ))}
             </select>
             <label className='mt-4' htmlFor="">Descripción de la Pista</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name='pista' />
