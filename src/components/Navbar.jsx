@@ -49,13 +49,13 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='p-5 md:flex md:justify-between'>
+    <nav className='p-5 text-green-400 md:flex md:justify-between'>
       
       <span className='text-3xl cursor-pointer mx-2 md:hidden block'>
         <i name="menu" className="fa-solid fa-bars" onClick={()=>{handleMenu(event)}}></i>
       </span>
       
-      <ul ref={listRef} className='text-black md:flex md:justify-between md:w-full md:items-center z-[-1] md:z-auto md:static 
+      <ul ref={listRef} className='text-green-400 md:flex md:justify-between md:w-full md:items-center z-[-1] md:z-auto md:static 
       left-0 w-full md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 top-[-400px] transition-all ease-in duration-500 hidden'>
         <ul className='md:flex md:items-center'>
           <li className='mx-4 my-6 md:my-0'>
@@ -66,9 +66,14 @@ const Navbar = () => {
               <a className='text-xl' href="/Admin">Admin Menu</a>
             </li>
           )}
+          {!isAdmin && (
+            <li className='mx-4 my-6 md:my-0'>
+              <a className='text-xl' href="/MiProgreso">Mi Progreso</a>
+            </li>
+          )}
         </ul>    
         
-        <button className='bg-red-500 text-white px-6 py-2 mx-4 hover:bg-red-600' onClick={()=>{cerrarSesion()}}>Cerrar Sesión</button>      
+        <button className='bg-green-500 text-white px-6 py-2 mx-4 hover:bg-green-600' onClick={()=>{cerrarSesion()}}>Cerrar Sesión</button>      
       
       </ul>
     </nav>
