@@ -163,6 +163,7 @@ const Admin = () => {
                         </option>
                     ))}
             </select>
+            <img className='mt-4' src="../assets/mapJunin.PNG" alt="Mapa de Junin" />
             <label className='mt-4' htmlFor="">Nombre del Lugar</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
             <label className='mt-4' htmlFor="">Longitud</label>
