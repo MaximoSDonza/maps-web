@@ -3,15 +3,16 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 const Login = () => {
     const apiUrl="http://localhost:3000/api/";
+    const newapiUrl="http://localhost:/jardinSanCayetano/API/";
     const [emailForm, setEmailForm] = useState('');
     const [claveForm, setClaveForm] = useState('');
     const loguear = (e)=>{
         e.preventDefault();
-        Axios.post(apiUrl+"Usuarios/LoguearUsuario", {
+        Axios.post(newapiUrl+"Usuarios/loguearUsuario.php", {
             userEmail: emailForm,
             userClave: claveForm
         }).then((result) => {
-            if(result.data){
+            if(result.data.success){
                 Cookies.set('email', emailForm, { expires: 7 });
                 alert("Usuario logueado con exito");
                 window.location.replace("/");

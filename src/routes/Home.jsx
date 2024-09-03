@@ -10,16 +10,18 @@ const Home = () => {
     const [userName, setUserName] = useState('');
     const [file, setFile] = useState(null);
     const apiUrl="http://localhost:3000/api/";
+    const newapiUrl="http://localhost:/jardinSanCayetano/API/";
+
     useEffect(() => {
         const emailCookie = Cookies.get('email');
         setCookieValue(emailCookie);
         if(emailCookie){
-            Axios.get(apiUrl+"Usuarios/ComprobarUsuario", {
+            Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
                 params: {userEmail: emailCookie}
             }).then((result) => {
-                if(result.data.length>0){
-                    setUserId(result.data[0].users_id);    
-                    setUserName(result.data[0].users_nombre); 
+                if(result.data.result.length>0){
+                    setUserId(result.data.result[0].users_id);    
+                    setUserName(result.data.result[0].users_nombre); 
                 }else{
                     window.location.replace("/Login");
                 }
@@ -30,8 +32,8 @@ const Home = () => {
             window.location.replace("/Login");
         }
 
-        Axios.get(apiUrl+"Rutas/ObtenerRutas").then((result) => {
-            setEventos(result.data);
+        Axios.get(newapiUrl+"Rutas/obtenerRutas.php").then((result) => {
+            setEventos(result.data.rutas);
         }).catch((error) => {
             console.error("Hubo un error al comprobar los eventos", error);
         });

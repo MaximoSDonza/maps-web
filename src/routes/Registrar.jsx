@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 
 const Registrar = () => {
   const apiUrl="http://localhost:3000/api/";
+  const newapiUrl="http://localhost:/jardinSanCayetano/API/";
   const [emailForm, setEmailForm] = useState('');
   const [claveForm, setClaveForm] = useState('');
   const [nombreForm, setNombreForm] = useState('');
@@ -17,12 +18,12 @@ const Registrar = () => {
 
   const registrar = (e)=>{
         e.preventDefault();
-        Axios.post(apiUrl+"Usuarios/RegistrarUsuario", {
+        Axios.post(newapiUrl+"Usuarios/registrarUsuario.php", {
             userNombre: nombreForm,
             userEmail: emailForm,
             userClave: claveForm
         }).then((result) => {
-            if(result.data){
+            if(result.data.success){
                 alert("Usuario registrado con exito");
                 window.location.replace("/Login");
             }else{

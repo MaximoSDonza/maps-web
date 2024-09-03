@@ -12,15 +12,16 @@ const Admin = () => {
     
     const [cookieValue, setCookieValue] = useState('');
     const apiUrl="http://localhost:3000/api/";
+    const newapiUrl="http://localhost:/jardinSanCayetano/API/";
     useEffect(() => {
         const emailCookie = Cookies.get('email');
         setCookieValue(emailCookie);
         if(emailCookie){
-            Axios.get(apiUrl+"Usuarios/ComprobarUsuario", {
+            Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
                 params: {userEmail: emailCookie}
             }).then((result) => {
-                if(result.data.length>0){    
-                    if(result.data[0].users_id!=1){
+                if(result.data.result.length>0){    
+                    if(result.data.result[0].users_id!=1){
                         window.location.replace("/");
                     }
                 }else{
@@ -33,14 +34,14 @@ const Admin = () => {
             window.location.replace("/");
         }
 
-        Axios.get(apiUrl+"Rutas/ObtenerRutas").then((result) => {
-            setEventos(result.data);
+        Axios.get(newapiUrl+"Rutas/obtenerRutas.php").then((result) => {
+            setEventos(result.data.rutas);
         }).catch((error) => {
             console.error("Hubo un error al comprobar los eventos", error);
         });
 
-        Axios.get(apiUrl+"Cordenadas/ObtenerCordenadas").then((result) => {
-            setLugares(result.data);
+        Axios.get(newapiUrl+"Cordenadas/obtenerCordenadas.php").then((result) => {
+            setLugares(result.data.cords);
         }).catch((error) => {
             console.error("Hubo un error al comprobar los eventos", error);
         });
@@ -94,7 +95,7 @@ const Admin = () => {
         
         switch (donde) {
             case 'evento':
-                Axios.post(apiUrl+"Rutas/CrearRuta", {
+                Axios.post(newapiUrl+"Rutas/crearRuta.php", {
                     nombreRuta:event.target.elements.nombre.value
                 }).then((result) => {
                    if(result){
@@ -105,23 +106,25 @@ const Admin = () => {
                 });
                 break;
             case 'lugar':
-                Axios.post(apiUrl+"Cordenadas/CrearCordenada", {
-                    cordTitulo:event.target.elements.nombre.value,
-                    cordRuta:event.target.elements.evento.value,
-                    cordLongitud:event.target.elements.longitud.value,
-                    cordLatitud:event.target.elements.latitud.value
+                Axios.post(newapiUrl+"Cordenadas/crearCordenada.php", {
+                    cordTitulo: event.target.elements.nombre.value,
+                    cordRuta: event.target.elements.evento.value,
+                    cordLongitud: event.target.elements.longitud.value,
+                    cordLatitud: event.target.elements.latitud.value
                 }).then((result) => {
-                   if(result){
+                   if(result.data.success){
                     alert("Lugar creado con exito.")
+                   }else{
+                    alert(result.data.error)
                    }
                 }).catch((error) => {
                     console.error("Hubo un error al crear el evento", error);
                 });
                 break;
             case 'pista':
-                Axios.post(apiUrl+"Pistas/CrearPista", {
+                Axios.post(newapiUrl+"Pistas/crearPista.php", {
                     pistaDesc:event.target.elements.pista.value,
-                    pistaCord:1
+                    pistaCord:event.target.elements.lugar.value
                 }).then((result) => {
                    if(result){
                     alert("Pista creada con exito.")
@@ -163,7 +166,7 @@ const Admin = () => {
                         </option>
                     ))}
             </select>
-            <img className='mt-4' src="../assets/mapJunin.PNG" alt="Mapa de Junin" />
+            <img className='mt-4 w-96 h-72' src="./src/assets/mapJunin.PNG" alt="Mapa de Junin" />
             <label className='mt-4' htmlFor="">Nombre del Lugar</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
             <label className='mt-4' htmlFor="">Longitud</label>
