@@ -9,19 +9,6 @@ import { useState, useEffect } from "react";
 import MiProgreso from "./routes/MiProgreso.jsx";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return <LoadScreen />;
-  }
 
   return (
     <div className="w-full h-full">

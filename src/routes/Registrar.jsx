@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios';
 import Cookies from 'js-cookie';
-
+import LoadScreen from '../components/LoadScreen';
+import logo from '../assets/sancayetanoo.png';
 const Registrar = () => {
-  const apiUrl="http://localhost:3000/api/";
-  const newapiUrl="https://jardinsancayetano.free.nf/API/";
-  const [emailForm, setEmailForm] = useState('');
-  const [claveForm, setClaveForm] = useState('');
-  const [nombreForm, setNombreForm] = useState('');
+    const [loading, setLoading] = useState(true);
+    const apiUrl="http://localhost:3000/api/";
+    const newapiUrl="https://jardinsancayetano.free.nf/API/";
+    const [emailForm, setEmailForm] = useState('');
+    const [claveForm, setClaveForm] = useState('');
+    const [nombreForm, setNombreForm] = useState('');
 
   useEffect(() => {
     const emailCookie = Cookies.get('email');
         if(emailCookie){
             window.location.replace("/");
-        }   
+        }else{
+            setLoading(false);
+        }
     }, []);
 
   const registrar = (e)=>{
@@ -34,10 +38,15 @@ const Registrar = () => {
         });
   }
 
+    if (loading) {
+        return <LoadScreen/>;
+    }
+
   return (
-    <div className='grid w-full h-full justify-center alig-center mt-12 mb-32'>
-        <h2 className="text-4xl text-green-600 mt-5 mb-8 text-center">Registrarse</h2>
-        <form className='mt-12 grid text-center' onSubmit={registrar}>
+    <div className='grid w-full h-full justify-items-center alig-center mt-12 mb-32'>
+        <h2 className="text-4xl text-green-600 mt-5 mb-4 text-center">Registrarse</h2>
+        <img className="mb-2 w-36 h-36" src={logo} alt="LogoJardin" />
+        <form className='mt-8 grid text-center' onSubmit={registrar}>
         <label htmlFor="nombre">Ingrese su Nombre</label>
             <input 
                 type="text"

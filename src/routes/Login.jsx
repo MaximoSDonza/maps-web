@@ -1,11 +1,15 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import LoadScreen from '../components/LoadScreen';
+import logo from '../assets/sancayetanoo.png';
 const Login = () => {
+    const [loading, setLoading] = useState(true);
     const apiUrl="http://localhost:3000/api/";
     const newapiUrl="https://jardinsancayetano.free.nf/API/";
     const [emailForm, setEmailForm] = useState('');
     const [claveForm, setClaveForm] = useState('');
+
     const loguear = (e)=>{
         e.preventDefault();
         Axios.post(newapiUrl+"Usuarios/loguearUsuario.php", {
@@ -28,14 +32,21 @@ const Login = () => {
         const emailCookie = Cookies.get('email');
         if(emailCookie){
             window.location.replace("/");
+        }else{
+            setLoading(false);
         }
     }, []);
+
+    if (loading) {
+        return <LoadScreen/>;
+    }
   
     return (
-        <div className='grid justify-center alig-center mt-12 mb-32'>
+        <div className='grid justify-items-center alig-center mt-12 mb-32'>
         
-            <h2 className="text-4xl text-green-600 mt-5 mb-8 text-center">Iniciar Sesión</h2>
-            <form className='mt-12 grid text-center' onSubmit={loguear}>
+            <h2 className="text-4xl text-green-600 mt-5 mb-4 text-center">Iniciar Sesión</h2>
+            <img className="mb-2 w-36 h-36" src={logo} alt="LogoJardin" />
+            <form className='mt-8 grid text-center' onSubmit={loguear}>
                 <label htmlFor="email">Ingrese su Email</label>
                 <input 
                     type="email"

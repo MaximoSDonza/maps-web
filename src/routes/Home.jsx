@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios';
 import Cookies from 'js-cookie';
+import LoadScreen from '../components/LoadScreen';
 const Home = () => {
+    const [loading, setLoading] = useState(true);
     const [cookieValue, setCookieValue] = useState('');
     const [eventos, setEventos] = useState([]);
     const [evento, setEvento] = useState('');
@@ -21,7 +23,8 @@ const Home = () => {
             }).then((result) => {
                 if(result.data.result.length>0){
                     setUserId(result.data.result[0].users_id);    
-                    setUserName(result.data.result[0].users_nombre); 
+                    setUserName(result.data.result[0].users_nombre);
+                    setLoading(false); 
                 }else{
                     window.location.replace("/Login");
                 }
@@ -66,7 +69,10 @@ const Home = () => {
         }
     };
 
-
+    if (loading) {
+        return <LoadScreen/>;
+    }
+    
     return (
         <div className='grid text-center justify-center mt-12 mb-32'>
             {!isPlaying ? (

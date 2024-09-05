@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Cookies from 'js-cookie';
 import Axios from 'axios';
+import LoadScreen from '../components/LoadScreen';
+import mapa from '../assets/mapJunin.png';
 const Admin = () => {
+    const [loading, setLoading] = useState(true);
     const [eventos, setEventos] = useState([]);
     const [lugares, setLugares] = useState([]);
     const eventoForm = useRef(null);
@@ -24,6 +27,8 @@ const Admin = () => {
                 if(result.data.result.length>0){    
                     if(result.data.result[0].users_id!=1){
                         window.location.replace("/");
+                    }else{
+                        setLoading(false);
                     }
                 }else{
                     window.location.replace("/");
@@ -139,6 +144,10 @@ const Admin = () => {
         }
     }
 
+    if (loading) {
+        return <LoadScreen/>;
+    }
+
   return (
     <div className='w-full text-center flex flex-col justify-center items-center mt-12 mb-32'>
         
@@ -169,7 +178,7 @@ const Admin = () => {
                         </option>
                     ))}
             </select>
-            <img className='mt-4 w-96 h-72' src="./src/assets/mapJunin.PNG" alt="Mapa de Junin" />
+            <img className='mt-4 w-96 h-72' src={mapa} alt="Mapa de Junin" />
             <label className='mt-4' htmlFor="">Nombre del Lugar</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
             <label className='mt-4' htmlFor="">Longitud</label>
