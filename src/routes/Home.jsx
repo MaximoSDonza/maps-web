@@ -10,7 +10,7 @@ const Home = () => {
     const [userName, setUserName] = useState('');
     const [file, setFile] = useState(null);
     const apiUrl="http://localhost:3000/api/";
-    const newapiUrl="http://localhost:/jardinSanCayetano/API/";
+    const newapiUrl="https://jardinsancayetano.free.nf/API/";
 
     useEffect(() => {
         const emailCookie = Cookies.get('email');

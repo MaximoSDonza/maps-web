@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 const Registrar = () => {
   const apiUrl="http://localhost:3000/api/";
-  const newapiUrl="http://localhost:/jardinSanCayetano/API/";
+  const newapiUrl="https://jardinsancayetano.free.nf/API/";
   const [emailForm, setEmailForm] = useState('');
   const [claveForm, setClaveForm] = useState('');
   const [nombreForm, setNombreForm] = useState('');

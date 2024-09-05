@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 const Login = () => {
     const apiUrl="http://localhost:3000/api/";
-    const newapiUrl="http://localhost:/jardinSanCayetano/API/";
+    const newapiUrl="https://jardinsancayetano.free.nf/API/";
     const [emailForm, setEmailForm] = useState('');
     const [claveForm, setClaveForm] = useState('');
     const loguear = (e)=>{

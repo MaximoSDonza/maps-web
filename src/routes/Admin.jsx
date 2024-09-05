@@ -12,8 +12,9 @@ const Admin = () => {
     
     const [cookieValue, setCookieValue] = useState('');
     const apiUrl="http://localhost:3000/api/";
-    const newapiUrl="http://localhost:/jardinSanCayetano/API/";
-    useEffect(() => {
+    const newapiUrl="https://jardinsancayetano.free.nf/API/";
+    
+    useEffect(()=>{
         const emailCookie = Cookies.get('email');
         setCookieValue(emailCookie);
         if(emailCookie){
@@ -33,7 +34,9 @@ const Admin = () => {
         }else{
             window.location.replace("/");
         }
-
+    }, []);
+    
+    useEffect(() => {
         Axios.get(newapiUrl+"Rutas/obtenerRutas.php").then((result) => {
             setEventos(result.data.rutas);
         }).catch((error) => {

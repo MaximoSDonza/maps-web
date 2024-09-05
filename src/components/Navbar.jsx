@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isLogued,setIsLogued] = useState(false);
   const listRef = useRef(null);
   const apiUrl="http://localhost:3000/api/";
-  const newapiUrl="http://localhost:/jardinSanCayetano/API/";
+  const newapiUrl="https://jardinsancayetano.free.nf/API/";
 
   const cerrarSesion = () =>{
     Cookies.remove('email');
@@ -35,9 +35,10 @@ const Navbar = () => {
       Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
         params: {userEmail: emailCookie}
       }).then((result) => {
-        if(result.data.result.length>0){
+        console.log(result.data);
+        if(result.data.result){
             setIsLogued(true);    
-          if(result.data.result[0].users_id==1){
+          if(result.data.result[0].users_id==1){ 
             setIsAdmin(true);
           }
         }
