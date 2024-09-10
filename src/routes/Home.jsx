@@ -15,11 +15,11 @@ const Home = () => {
     const newapiUrl="https://jardinsancayetano.free.nf/API/";
 
     useEffect(() => {
-        const emailCookie = Cookies.get('email');
+        const numeroCookie = Cookies.get('numero');
         setCookieValue(emailCookie);
-        if(emailCookie){
+        if(numeroCookie){
             Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
-                params: {userEmail: emailCookie}
+                params: {userEmail: numeroCookie}
             }).then((result) => {
                 if(result.data.result.length>0){
                     setUserId(result.data.result[0].users_id);    
@@ -78,16 +78,8 @@ const Home = () => {
             {!isPlaying ? (
                 <>
                     <h2 className='text-2xl mb-14'>Hola <b>{userName}</b></h2>
-                    <h2 className='text-xl'><b>Eventos</b></h2>
                     <form className='grid justify-items-center' onSubmit={handleSubmit}>
-                        <select name="evento" id="">
-                            {eventos.map(evento => (
-                                <option key={evento.rutas_id} value={evento.rutas_id}>
-                                    {evento.rutas_nombre}
-                                </option>
-                            ))}
-                        </select>
-
+                        <input type="number" name='evento' value={1} hidden />
                         <button
                             type="submit"
                             className="rounded-full w-20 h-20 p-4 bg-green-300 mt-32 submit"
