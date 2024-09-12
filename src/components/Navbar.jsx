@@ -35,7 +35,6 @@ const Navbar = () => {
       Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
         params: {userNumero: numeroCookie}
       }).then((result) => {
-        console.log(result.data);
         if(result.data.result){
             setIsLogued(true);    
           if(result.data.result[0].users_id==1){ 
