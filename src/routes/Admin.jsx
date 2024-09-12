@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import Cookies from 'js-cookie';
 import Axios from 'axios';
 import LoadScreen from '../components/LoadScreen';
-import mapa from '../assets/mapJunin.png';
 const Admin = () => {
     const [loading, setLoading] = useState(true);
     const [eventos, setEventos] = useState([]);
@@ -18,11 +17,11 @@ const Admin = () => {
     const newapiUrl="https://jardinsancayetano.free.nf/API/";
     
     useEffect(()=>{
-        const emailCookie = Cookies.get('email');
-        setCookieValue(emailCookie);
-        if(emailCookie){
+        const numeroCookie = Cookies.get('numero');
+        setCookieValue(numeroCookie);
+        if(numeroCookie){
             Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
-                params: {userEmail: emailCookie}
+                params: {userNumero: numeroCookie}
             }).then((result) => {
                 if(result.data.result.length>0){    
                     if(result.data.result[0].users_id!=1){
@@ -31,7 +30,7 @@ const Admin = () => {
                         setLoading(false);
                     }
                 }else{
-                    window.location.replace("/");
+                    window.location.replace("/Login");
                 }
             }).catch((error) => {
                 console.error("Hubo un error al comprobar usuario", error);
@@ -178,13 +177,8 @@ const Admin = () => {
                         </option>
                     ))}
             </select>
-            <img className='mt-4 w-96 h-72' src={mapa} alt="Mapa de Junin" />
             <label className='mt-4' htmlFor="">Nombre del Lugar</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
-            <label className='mt-4' htmlFor="">Longitud</label>
-            <input className='border-b-2 border-green-400 mt-2' type="text" name="longitud" />
-            <label className='mt-4' htmlFor="">Latitud</label>
-            <input className='border-b-2 border-green-400 mt-2' type="text" name="latitud" />
             <input className='border-b-2 border-green-400 mt-2' type="text" name="form" value='lugar' hidden />
             <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
         </form>

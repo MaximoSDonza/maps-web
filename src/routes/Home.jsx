@@ -16,12 +16,15 @@ const Home = () => {
 
     useEffect(() => {
         const numeroCookie = Cookies.get('numero');
-        setCookieValue(emailCookie);
+        setCookieValue(numeroCookie);
         if(numeroCookie){
             Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
-                params: {userEmail: numeroCookie}
+                params: {userNumero: numeroCookie}
             }).then((result) => {
                 if(result.data.result.length>0){
+                    if(result.data.result[0].users_rango==1){
+                        window.location.replace("/Admin");
+                    }
                     setUserId(result.data.result[0].users_id);    
                     setUserName(result.data.result[0].users_nombre);
                     setLoading(false); 

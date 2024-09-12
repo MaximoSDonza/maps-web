@@ -10,7 +10,7 @@ const Navbar = () => {
   const newapiUrl="https://jardinsancayetano.free.nf/API/";
 
   const cerrarSesion = () =>{
-    Cookies.remove('email');
+    Cookies.remove('numero');
     window.location.replace("/Login");
   }
 
@@ -30,10 +30,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const emailCookie = Cookies.get('email');
-    if(emailCookie){
+    const numeroCookie = Cookies.get('numero');
+    if(numeroCookie){
       Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
-        params: {userEmail: emailCookie}
+        params: {userNumero: numeroCookie}
       }).then((result) => {
         console.log(result.data);
         if(result.data.result){
