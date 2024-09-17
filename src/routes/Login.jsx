@@ -2,7 +2,7 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import LoadScreen from '../components/LoadScreen';
-import logo from '../assets/sancayetanoo.png';
+import logo from '../assets/logoapp.png';
 const Login = () => {
     const [loading, setLoading] = useState(true);
     const apiUrl="http://localhost:3000/api/";
@@ -12,24 +12,28 @@ const Login = () => {
 
     const loguear = (e)=>{
         e.preventDefault();
-        Axios.post(newapiUrl+"Usuarios/loguearUsuario.php", {
-            userNombre: nombreForm,
-            userNumero: numeroForm
-        }).then((result) => {
-            if(result.data.success){
-                Cookies.set('numero', numeroForm, { expires: 7 });
-                alert("Usuario logueado con exito");
-                if(result.data.rank==1){
-                    window.location.replace("/Admin");
+        if(numeroForm>999999999 && numeroForm<10000000000){
+            Axios.post(newapiUrl+"Usuarios/loguearUsuario.php", {
+                userNombre: nombreForm,
+                userNumero: numeroForm
+            }).then((result) => {
+                if(result.data.success){
+                    Cookies.set('numero', numeroForm, { expires: 7 });
+                    alert("Usuario logueado con exito");
+                    if(result.data.rank==1){
+                        window.location.replace("/Admin");
+                    }else{
+                        window.location.replace("/");
+                    }
                 }else{
-                    window.location.replace("/");
+                    alert("Usuario no ha sido encontrado");
                 }
-            }else{
-                alert("Usuario no ha sido encontrado");
-            }
-        }).catch((error) => {
-            console.error("Hubo un error al iniciar sesión", error);
-        });
+            }).catch((error) => {
+                console.error("Hubo un error al iniciar sesión", error);
+            });
+        }else{
+            alert("Número de telefono invalido");
+        }
     }
 
     useEffect(() => {

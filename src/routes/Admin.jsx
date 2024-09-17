@@ -127,6 +127,18 @@ const Admin = () => {
         }
     }
 
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+          // Verifica si el archivo es una imagen
+          if (selectedFile.type.startsWith('image/')) {
+            setFile(selectedFile);
+          } else {
+            alert('Por favor, selecciona un archivo de imagen.');
+          }
+        }
+    };
+
     const handleSubmit = (event) =>{
         event.preventDefault();
         const donde = event.target.elements.form.value;
@@ -236,6 +248,13 @@ const Admin = () => {
                         </option>
                     ))}
             </select>
+            <label htmlFor="" className='mt-4'></label>
+            <input
+                className='mt-2'
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+            />
             <label className='mt-4' htmlFor="">Descripción de la Pista</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name='pista' />
             <input type="text" name="form" value='pista' hidden />

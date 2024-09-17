@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Axios from 'axios';
 import Cookies from 'js-cookie';
 import LoadScreen from '../components/LoadScreen';
-import logo from '../assets/sancayetanoo.png';
+import logo from '../assets/logoapp.png';
 const Registrar = () => {
     const [loading, setLoading] = useState(true);
     const apiUrl="http://localhost:3000/api/";
@@ -21,19 +21,23 @@ const Registrar = () => {
 
   const registrar = (e)=>{
         e.preventDefault();
-        Axios.post(newapiUrl+"Usuarios/registrarUsuario.php", {
-            userNombre: nombreForm,
-            userNumero: numeroForm
-        }).then((result) => {
-            if(result.data.success){
-                alert("Usuario registrado con exito");
-                window.location.replace("/Login");
-            }else{
-                alert("Error al registrar usuario");
-            }
-        }).catch((error) => {
-            console.error("Hubo un error al registrarse", error);
-        });
+        if(numeroForm>999999999 && numeroForm<10000000000){
+            Axios.post(newapiUrl+"Usuarios/registrarUsuario.php", {
+                userNombre: nombreForm,
+                userNumero: numeroForm
+            }).then((result) => {
+                if(result.data.success){
+                    alert("Usuario registrado con exito");
+                    window.location.replace("/Login");
+                }else{
+                    alert("Error al registrar usuario");
+                }
+            }).catch((error) => {
+                console.error("Hubo un error al registrarse", error);
+            });
+        }else{
+            alert("Número de telefono invalido");
+        }
   }
 
     if (loading) {

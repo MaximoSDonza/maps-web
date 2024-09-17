@@ -98,7 +98,6 @@ const Home = () => {
                         <input
                             type="file"
                             accept="image/*"
-                            capture="environment"
                             onChange={handleFileChange}
                         />
                         <button className='w-40 text-white bg-green-500 rounded-full p-2 mt-8' type="submit">Subir Foto</button>
