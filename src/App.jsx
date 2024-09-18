@@ -4,6 +4,7 @@ import Registrar from "./routes/Registrar.jsx";
 import Admin from "./routes/Admin.jsx";
 import Home from "./routes/Home.jsx";
 import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 import LoadScreen from './components/LoadScreen';
 import { useState, useEffect } from "react";
 import MiProgreso from "./routes/MiProgreso.jsx";
@@ -21,6 +22,7 @@ function App() {
         <Route path='/MiProgreso' element={<MiProgreso />} />
         <Route path="/*" element={<Navigate to='/' />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
