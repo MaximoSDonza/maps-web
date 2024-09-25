@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import Axios from 'axios';
 const Juego = () => {
     const identifierCookie = Cookies.get('userId');
     const newapiUrl="https://jardinsancayetano.free.nf/API/";
+    const [recarga, setRecarga] = useState(0);
     const [file, setFile] = useState(null);
     const [cords, setCords] = useState([]);
     const [pistas, setPistas] = useState([]);
-    
+    const [mixedOptions, setMixedOptions] = useState([]);
+    const [clickedButtons, setClickedButtons] = useState([]);
+    const [showForm, setShowForm] = useState(false);
+    const fotoForm = useRef(null);
+
     useEffect(() => {
         Axios.get(newapiUrl+"Juego/comprobarCamino.php", {
             params: {userId: identifierCookie}
@@ -22,10 +27,17 @@ const Juego = () => {
         }).then((result) => {
             setCords(result.data.cords);
             setPistas(result.data.pistas);
+            const mixed = result.data.cords.flatMap(cord => [
+                { text: cord.cords_titulo, isCorrect: true },
+                { text: cord.cords_fake1, isCorrect: false },
+                { text: cord.cords_fake2, isCorrect: false }
+            ]).sort(() => Math.random() - 0.5);
+    
+            setMixedOptions(mixed);
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
         });
-    }, []);
+    }, [recarga]);
     
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -37,6 +49,15 @@ const Juego = () => {
             alert('Por favor, selecciona un archivo de imagen.');
           }
         }
+    };
+
+    const handleClick = (index, isCorrect) => {
+        // Si el botón es correcto, mostrar el formulario
+        if (isCorrect) {
+            setShowForm(true);
+        }
+        // Agregar el índice del botón clicado a la lista
+        setClickedButtons(prev => [...prev, index]);
     };
 
     const handleSubmit = (event) =>{
@@ -55,6 +76,7 @@ const Juego = () => {
                 }).then((result) => {
                     if (result) {
                         alert("Avanzando con éxito.");
+                        setRecarga(recarga+1);
                     }
                 }).catch((error) => {
                     console.error("Hubo un error al crear la pista", error);
@@ -64,28 +86,32 @@ const Juego = () => {
 
     return (
         <div>
-            {cords.map(cord => (
-                        <div key={cord.cords_id}>
-                            <p>{cord.cords_titulo}</p>
-                            <p>{cord.cords_fake1}</p>
-                            <p>{cord.cords_fake2}</p>
-                        </div>
-                    ))}
             {pistas.map(pista => (
                         <div key={pista.pistas_id}>
-                            <img src={pista.pistas_img} alt="" />
+                            <img className='w-40 h-40' src={pista.pistas_img} alt="" />
                             <p>{pista.pistas_desc}</p>
                         </div>
                     ))}
-            <form className='grid justify-items-center' onSubmit={handleSubmit} action="">
-                <input
-                    type="file"
-                    accept="image/*"
-                    name='foto'
-                    onChange={handleFileChange}
-                />
-                <button className='w-40 text-white bg-green-500 rounded-full p-2 mt-8' type="submit">Subir Foto</button>
-            </form>
+            {mixedOptions.map((option, index) => (
+                <button
+                    key={index}
+                    onClick={() => handleClick(index, option.isCorrect)}
+                    className={`m-2 p-2 rounded ${clickedButtons.includes(index) ? (option.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300'}`}
+                >
+                    {option.text}
+                </button>
+            ))}
+            {showForm && (
+                <form ref={fotoForm} className='justify-items-center' onSubmit={handleSubmit}>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        name='foto'
+                        onChange={handleFileChange}
+                    />
+                    <button className='w-40 text-white bg-green-500 rounded-full p-2 mt-8' type="submit">Subir Foto</button>
+                </form>
+            )}
         </div>
     )
 }
