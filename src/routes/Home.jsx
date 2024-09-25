@@ -68,9 +68,10 @@ const Home = () => {
                     <h2 className='text-2xl mb-14'>Hola <b>{userName}</b></h2>
                     <form className='grid justify-items-center' onSubmit={handleSubmit}>
                         <input type="number" name='evento' value={1} hidden />
+                        <p className='mt-32'>¡Vamos a Jugar!</p>
                         <button
                             type="submit"
-                            className="rounded-full w-20 h-20 p-4 bg-green-300 mt-32 submit"
+                            className="rounded-full w-20 h-20 p-4 bg-green-300 mt-4 submit"
                         >
                             <i className="fa-solid fa-play"></i>
                         </button>

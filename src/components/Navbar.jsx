@@ -59,9 +59,11 @@ const Navbar = () => {
       <ul ref={listRef} className='text-green-400 md:flex md:justify-between md:w-full md:items-center z-[-1] md:z-auto md:static 
       left-0 w-full md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 top-[-400px] transition-all ease-in duration-500 hidden'>
         <ul className='md:flex md:items-center'>
-          <li className='mx-4 my-6 md:my-0'>
-            <a className='text-xl' href="/">Inicio</a>
-          </li>
+          {!isAdmin && (
+            <li className='mx-4 my-6 md:my-0'>
+              <a className='text-xl' href="/">Inicio</a>
+            </li>
+          )}
           {isAdmin && (
             <li className='mx-4 my-6 md:my-0'>
               <a className='text-xl' href="/Admin">Admin Menu</a>

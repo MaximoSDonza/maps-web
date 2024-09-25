@@ -11,7 +11,6 @@ const Juego = () => {
     useEffect(() => {
         Axios.get(newapiUrl+"Juego/comprobarCamino.php", {
             params: {userId: identifierCookie}
-        }).then((result) => {
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
         });
@@ -43,7 +42,23 @@ const Juego = () => {
     const handleSubmit = (event) =>{
         event.preventDefault();
         if(file){
-            console.log('Archivo seleccionado:', file);
+            const formData = new FormData();
+                formData.append('user', identifierCookie);
+                formData.append('ruta', 1);
+                formData.append('file', file);
+                formData.append('cord', cords[0].cords_id);
+
+                Axios.post(newapiUrl + "Juego/avanzarJuego.php", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((result) => {
+                    if (result) {
+                        alert("Avanzando con éxito.");
+                    }
+                }).catch((error) => {
+                    console.error("Hubo un error al crear la pista", error);
+                });
         }
     }
 
@@ -66,6 +81,7 @@ const Juego = () => {
                 <input
                     type="file"
                     accept="image/*"
+                    name='foto'
                     onChange={handleFileChange}
                 />
                 <button className='w-40 text-white bg-green-500 rounded-full p-2 mt-8' type="submit">Subir Foto</button>

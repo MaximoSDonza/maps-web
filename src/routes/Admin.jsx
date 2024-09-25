@@ -13,6 +13,7 @@ const Admin = () => {
     const pistaForm = useRef(null);
     const [longitud, setLongitud] = useState('');
     const [latitud, setLatitud] = useState('');
+    const [file, setFile] = useState(null);
     
     const [cookieValue, setCookieValue] = useState('');
     const apiUrl="http://localhost:3000/api/";
@@ -172,13 +173,19 @@ const Admin = () => {
                 });
                 break;
             case 'pista':
-                Axios.post(newapiUrl+"Pistas/crearPista.php", {
-                    pistaDesc:event.target.elements.pista.value,
-                    pistaCord:event.target.elements.lugar.value
+                const formData = new FormData();
+                formData.append('pistaDesc', event.target.elements.pista.value);
+                formData.append('pistaCord', event.target.elements.lugar.value);
+                formData.append('file', file);
+
+                Axios.post(newapiUrl + "Pistas/crearPista.php", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 }).then((result) => {
-                   if(result){
-                    alert("Pista creada con exito.")
-                   }
+                    if (result) {
+                        alert("Pista creada con éxito.");
+                    }
                 }).catch((error) => {
                     console.error("Hubo un error al crear la pista", error);
                 });
@@ -230,9 +237,9 @@ const Admin = () => {
             <h2 className='text-xl mb-8'>Agregar Lugar</h2>
             <label className='mt-4' htmlFor="">Nombre del Lugar</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
-            <label className='mt-4' htmlFor="">Nombre de lugar falso</label>
+            <label className='mt-4' htmlFor="">Nombre de lugar falso 1</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="fake1" />
-            <label className='mt-4' htmlFor="">Nombre de lugar falso</label>
+            <label className='mt-4' htmlFor="">Nombre de lugar falso 2</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="fake2" />
             <input className='border-b-2 border-green-400 mt-2' type="text" name="form" value='lugar' hidden />
             <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
