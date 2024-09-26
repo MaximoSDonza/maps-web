@@ -11,6 +11,7 @@ const Juego = () => {
     const [mixedOptions, setMixedOptions] = useState([]);
     const [clickedButtons, setClickedButtons] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const [final, setFinal] = useState(false);
     const fotoForm = useRef(null);
 
     useEffect(() => {
@@ -27,13 +28,17 @@ const Juego = () => {
         }).then((result) => {
             setCords(result.data.cords);
             setPistas(result.data.pistas);
-            const mixed = result.data.cords.flatMap(cord => [
-                { text: cord.cords_titulo, isCorrect: true },
-                { text: cord.cords_fake1, isCorrect: false },
-                { text: cord.cords_fake2, isCorrect: false }
-            ]).sort(() => Math.random() - 0.5);
-    
-            setMixedOptions(mixed);
+            if(result.data.cords.length>0){
+                const mixed = result.data.cords.flatMap(cord => [
+                    { text: cord.cords_titulo, isCorrect: true },
+                    { text: cord.cords_fake1, isCorrect: false },
+                    { text: cord.cords_fake2, isCorrect: false }
+                ]).sort(() => Math.random() - 0.5);
+        
+                setMixedOptions(mixed);
+            }else{
+                setFinal(true);
+            }
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
         });
@@ -76,6 +81,7 @@ const Juego = () => {
                 }).then((result) => {
                     if (result) {
                         alert("Avanzando con éxito.");
+                        setClickedButtons([]);
                         setRecarga(recarga+1);
                     }
                 }).catch((error) => {
