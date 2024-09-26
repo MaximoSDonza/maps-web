@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import Axios from 'axios';
+import LoadScreen from './LoadScreen';
 const Juego = () => {
     const identifierCookie = Cookies.get('userId');
     const newapiUrl="https://jardinsancayetano.free.nf/API/";
@@ -12,6 +13,7 @@ const Juego = () => {
     const [clickedButtons, setClickedButtons] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [final, setFinal] = useState(false);
+    const [loading, setLoading] = useState(false);
     const fotoForm = useRef(null);
 
     useEffect(() => {
@@ -38,6 +40,9 @@ const Juego = () => {
                 setMixedOptions(mixed);
             }else{
                 setFinal(true);
+            }
+            if(loading){
+                return <LoadScreen/>;
             }
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
@@ -81,11 +86,16 @@ const Juego = () => {
                 }).then((result) => {
                     if (result) {
                         alert("Avanzando con éxito.");
+                        setLoading(true);
+                        setTimeout(() => {
+                            setLoading(false); 
+                        }, 1000);
                         setClickedButtons([]);
                         setRecarga(recarga+1);
+                        setFile(null);
                     }
                 }).catch((error) => {
-                    console.error("Hubo un error al crear la pista", error);
+                    console.error("Hubo un error al avanzar.", error);
                 });
         }
     }
