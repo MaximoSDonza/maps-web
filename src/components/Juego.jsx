@@ -13,6 +13,7 @@ const Juego = () => {
     const [clickedButtons, setClickedButtons] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [final, setFinal] = useState(false);
+    const [collage, setCollage] = useState(null);
     const [loading, setLoading] = useState(false);
     const fotoForm = useRef(null);
 
@@ -39,10 +40,8 @@ const Juego = () => {
         
                 setMixedOptions(mixed);
             }else{
+                setCollage(result.data.collage);
                 setFinal(true);
-            }
-            if(loading){
-                return <LoadScreen/>;
             }
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
@@ -72,6 +71,7 @@ const Juego = () => {
 
     const handleSubmit = (event) =>{
         event.preventDefault();
+        setLoading(true);
         if(file){
             const formData = new FormData();
                 formData.append('user', identifierCookie);
@@ -85,8 +85,6 @@ const Juego = () => {
                     }
                 }).then((result) => {
                     if (result) {
-                        alert("Avanzando con éxito.");
-                        setLoading(true);
                         setTimeout(() => {
                             setLoading(false); 
                         }, 1000);
@@ -100,36 +98,67 @@ const Juego = () => {
         }
     }
 
+    const downloadCollage = () => {
+        if (collage) {
+            const link = document.createElement('a');
+            link.href = `data:image/jpeg;base64,${collage}`;
+            link.download = 'collage.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Aquí puedes ejecutar la función adicional
+            
+        }
+    };
+
+    if(loading){
+        return <LoadScreen/>;
+    }
+
     return (
         <div>
-            {pistas.map(pista => (
+            {final ? (
+                <div>
+                    {collage && (
+                        <div>
+                            <img src={`data:image/jpeg;base64,${collage}`} alt="Collage" />
+                            <button onClick={downloadCollage}>Descargar Collage</button>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div>
+                    {pistas.map(pista => (
                         <div key={pista.pistas_id}>
                             <img className='w-40 h-40' src={pista.pistas_img} alt="" />
                             <p>{pista.pistas_desc}</p>
                         </div>
                     ))}
-            {mixedOptions.map((option, index) => (
-                <button
-                    key={index}
-                    onClick={() => handleClick(index, option.isCorrect)}
-                    className={`m-2 p-2 rounded ${clickedButtons.includes(index) ? (option.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300'}`}
-                >
-                    {option.text}
-                </button>
-            ))}
-            {showForm && (
-                <form ref={fotoForm} className='justify-items-center' onSubmit={handleSubmit}>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        name='foto'
-                        onChange={handleFileChange}
-                    />
-                    <button className='w-40 text-white bg-green-500 rounded-full p-2 mt-8' type="submit">Subir Foto</button>
-                </form>
+                    {mixedOptions.map((option, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleClick(index, option.isCorrect)}
+                            className={`m-2 p-2 rounded ${clickedButtons.includes(index) ? (option.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300'}`}
+                        >
+                            {option.text}
+                        </button>
+                    ))}
+                    {showForm && (
+                        <form ref={fotoForm} className='justify-items-center' onSubmit={handleSubmit}>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                name='foto'
+                                onChange={handleFileChange}
+                            />
+                            <button className='w-40 text-white bg-green-500 rounded-full p-2 mt-8' type="submit">Subir Foto</button>
+                        </form>
+                    )}
+                </div>
             )}
         </div>
-    )
-}
+    );
+};
 
 export default Juego
