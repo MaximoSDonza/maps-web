@@ -26,20 +26,25 @@ const Juego = () => {
     }, []);
     
     useEffect(() => {
-        Axios.get(newapiUrl+"Juego/obtenerCamino.php", {
-            params: {userId: identifierCookie}
+        Axios.get(newapiUrl + "Juego/obtenerCamino.php", {
+            params: { userId: identifierCookie }
         }).then((result) => {
-            setCords(result.data.cords);
-            setPistas(result.data.pistas);
-            if(result.data.cords.length>0){
-                const mixed = result.data.cords.flatMap(cord => [
+            const cordsData = result.data.cords || []; 
+            const pistasData = result.data.pistas || [];
+    
+            setCords(cordsData);
+            setPistas(pistasData);
+    
+            if (cordsData.length > 0) {
+                const mixed = cordsData.flatMap(cord => [
                     { text: cord.cords_titulo, isCorrect: true },
                     { text: cord.cords_fake1, isCorrect: false },
                     { text: cord.cords_fake2, isCorrect: false }
                 ]).sort(() => Math.random() - 0.5);
-        
+    
                 setMixedOptions(mixed);
-            }else{
+                setShowForm(false);
+            } else {
                 setCollage(result.data.collage);
                 setFinal(true);
             }
@@ -47,6 +52,7 @@ const Juego = () => {
             console.error("Hubo un error al jugar.", error);
         });
     }, [recarga]);
+    
     
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
