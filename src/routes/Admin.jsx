@@ -7,13 +7,17 @@ const Admin = () => {
     const [eventos, setEventos] = useState([]);
     const [historial, setHistorial] = useState([]);
     const [lugares, setLugares] = useState([]);
-    const historialLogin = useRef(null);
-    const eventoForm = useRef(null);
-    const lugarForm = useRef(null);
-    const pistaForm = useRef(null);
+    const [pistas, setPistas] = useState([]);
     const [longitud, setLongitud] = useState('');
     const [latitud, setLatitud] = useState('');
     const [file, setFile] = useState(null);
+
+    const historialLogin = useRef(null);
+    const eventoForm = useRef(null);
+    const enviarLugarForm = useRef(null);
+    const enviarPistaForm = useRef(null);
+    const verPistaDiv = useRef(null);
+    const verLugarDiv = useRef(null);
     
     const [cookieValue, setCookieValue] = useState('');
     const apiUrl="http://localhost:3000/api/";
@@ -56,6 +60,12 @@ const Admin = () => {
             console.error("Hubo un error al comprobar los eventos", error);
         });
 
+        Axios.get(newapiUrl+"Pistas/obtenerPistas.php").then((result) => {
+            setPistas(result.data.pistas);
+        }).catch((error) => {
+            console.error("Hubo un error al comprobar los eventos", error);
+        });
+
         Axios.get(newapiUrl+"Historial/obtenerHistorialLogin.php").then((result) => {
             setHistorial(result.data.historial);
         }).catch((error) => {
@@ -64,15 +74,25 @@ const Admin = () => {
         
     }, []);
 
+    // MOSTRAR ESCONDER
     const verHistorialLogin = () =>{
         if(historialLogin.current.classList.contains('hidden')){
-            if(!lugarForm.current.classList.contains('hidden')){
-                lugarForm.current.classList.add('hidden');
+            if(!enviarLugarForm.current.classList.contains('hidden')){
+                enviarLugarForm.current.classList.add('hidden');
             }
             
-            if(!pistaForm.current.classList.contains('hidden')){
-                pistaForm.current.classList.add('hidden');
+            if(!enviarPistaForm.current.classList.contains('hidden')){
+                enviarPistaForm.current.classList.add('hidden');
             }
+
+            if(!verLugarDiv.current.classList.contains('hidden')){
+                verLugarDiv.current.classList.add('hidden');
+            }
+
+            if(!verPistaDiv.current.classList.contains('hidden')){
+                verPistaDiv.current.classList.add('hidden');
+            }
+
             historialLogin.current.classList.remove('hidden');
         }
         
@@ -80,20 +100,27 @@ const Admin = () => {
     
     // const agregarEvento = () =>{
     //     if(eventoForm.current.classList.contains('hidden')){
-    //         if(!lugarForm.current.classList.contains('hidden')){
-    //             lugarForm.current.classList.add('hidden');
+    //         if(!enviarLugarForm.current.classList.contains('hidden')){
+    //             enviarLugarForm.current.classList.add('hidden');
     //         }
             
-    //         if(!pistaForm.current.classList.contains('hidden')){
-    //             pistaForm.current.classList.add('hidden');
+    //         if(!enviarPistaForm.current.classList.contains('hidden')){
+    //             enviarPistaForm.current.classList.add('hidden');
     //         }
     //         eventoForm.current.classList.remove('hidden');
+    //         if(!verLugarDiv.current.classList.contains('hidden')){
+    //              verLugarDiv.current.classList.add('hidden');
+    //         }
+
+    // if(!verPistaDiv.current.classList.contains('hidden')){
+    //     verPistaDiv.current.classList.add('hidden');
+    // }
     //     }
         
     // }
 
     const agregarLugar = () =>{
-        if(lugarForm.current.classList.contains('hidden')){
+        if(enviarLugarForm.current.classList.contains('hidden')){
             // if(!eventoForm.current.classList.contains('hidden')){
             //     eventoForm.current.classList.add('hidden');
             // }
@@ -102,32 +129,102 @@ const Admin = () => {
                 historialLogin.current.classList.add('hidden');
             }
 
-            if(!pistaForm.current.classList.contains('hidden')){
-                pistaForm.current.classList.add('hidden');
+            if(!enviarPistaForm.current.classList.contains('hidden')){
+                enviarPistaForm.current.classList.add('hidden');
             }
 
-            lugarForm.current.classList.remove('hidden');
+            if(!verLugarDiv.current.classList.contains('hidden')){
+                verLugarDiv.current.classList.add('hidden');
+            }
+
+            if(!verPistaDiv.current.classList.contains('hidden')){
+                verPistaDiv.current.classList.add('hidden');
+            }
+
+            enviarLugarForm.current.classList.remove('hidden');
         }
     }
 
     const agregarPista = () =>{
-        if(pistaForm.current.classList.contains('hidden')){
-            if(!lugarForm.current.classList.contains('hidden')){
-                lugarForm.current.classList.add('hidden');
+        if(enviarPistaForm.current.classList.contains('hidden')){
+            if(!enviarLugarForm.current.classList.contains('hidden')){
+                enviarLugarForm.current.classList.add('hidden');
             }
             
             if(!historialLogin.current.classList.contains('hidden')){
                 historialLogin.current.classList.add('hidden');
             }
 
+            if(!verLugarDiv.current.classList.contains('hidden')){
+                verLugarDiv.current.classList.add('hidden');
+            }
+
+            if(!verPistaDiv.current.classList.contains('hidden')){
+                verPistaDiv.current.classList.add('hidden');
+            }
+
             // if(!eventoForm.current.classList.contains('hidden')){
             //     eventoForm.current.classList.add('hidden');
             // }
 
-            pistaForm.current.classList.remove('hidden');
+            enviarPistaForm.current.classList.remove('hidden');
         }
     }
 
+    const verLugares = () =>{
+        if(verLugarDiv.current.classList.contains('hidden')){
+            if(!enviarLugarForm.current.classList.contains('hidden')){
+                enviarLugarForm.current.classList.add('hidden');
+            }
+
+            if(!enviarPistaForm.current.classList.contains('hidden')){
+                enviarPistaForm.current.classList.add('hidden');
+            }
+            
+            if(!historialLogin.current.classList.contains('hidden')){
+                historialLogin.current.classList.add('hidden');
+            }
+
+            if(!verPistaDiv.current.classList.contains('hidden')){
+                verPistaDiv.current.classList.add('hidden');
+            }
+
+            // if(!eventoForm.current.classList.contains('hidden')){
+            //     eventoForm.current.classList.add('hidden');
+            // }
+
+            verLugarDiv.current.classList.remove('hidden');
+        }
+    }
+
+    const verPistas = () =>{
+        if(verPistaDiv.current.classList.contains('hidden')){
+            if(!enviarLugarForm.current.classList.contains('hidden')){
+                enviarLugarForm.current.classList.add('hidden');
+            }
+
+            if(!enviarPistaForm.current.classList.contains('hidden')){
+                enviarPistaForm.current.classList.add('hidden');
+            }
+            
+            if(!historialLogin.current.classList.contains('hidden')){
+                historialLogin.current.classList.add('hidden');
+            }
+
+            if(!verLugarDiv.current.classList.contains('hidden')){
+                verLugarDiv.current.classList.add('hidden');
+            }
+
+            // if(!eventoForm.current.classList.contains('hidden')){
+            //     eventoForm.current.classList.add('hidden');
+            // }
+
+            verPistaDiv.current.classList.remove('hidden');
+        }
+    }
+    // MOSTRAR ESCONDER
+
+    // HANDLE
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
@@ -192,7 +289,41 @@ const Admin = () => {
                 break;
         }
     }
+    // HANDLE
+    
+    // ELIMINAR
 
+    const eliminarPista = (id)=> {
+        Axios.post(newapiUrl + "Pistas/eliminarPista.php",{
+            idPista: id
+        }).then((result) => {
+            if(result.data.success){
+                alert("Pista eliminada con exito.")
+            }else{
+                alert("ERROR al eliminar Pista.")
+            }
+        }).catch((error) => {
+            console.error("Hubo un error al eliminar la pista", error);
+        });
+    }
+
+    const eliminarLugar = (id)=> {
+        Axios.post(newapiUrl+"Cordenadas/eliminarCordenada.php",{
+            idCord: id,
+        }).then((result) => {
+            if(result.data.success){
+                alert("Lugar eliminado con exito.")
+            }else{
+                alert("ERROR al eliminar Lugar.")
+            }
+        }).catch((error) => {
+            console.error("Hubo un error al eliminar el lugar", error);
+        });
+    }
+
+    // ELIMINAR
+
+    //PANTALLA DE CARGA
     if (loading) {
         return <LoadScreen/>;
     }
@@ -205,7 +336,11 @@ const Admin = () => {
 
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarLugar()} >Agregar Lugar</button>
             
+            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verLugares()} >ver Lugares</button>
+            
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarPista()} >Agregar Pista</button>
+
+            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verPistas()} >ver Pistas</button>
         </div>
 
         <div ref={historialLogin} className='grid justify-items-center  hidden w-80 mt-14'>
@@ -225,6 +360,29 @@ const Admin = () => {
             </table>
         </div>
         
+        <div className="grid justify-items-center alig-center hidden w-80 mt-14" ref={verPistaDiv}>
+            {pistas.map(pista => (
+                    <div className='mt-5' key={pista.pistas_id}>
+                        <p>Pertenece a: {pista.cords_titulo}</p>
+                        <p> {pista.pistas_desc} </p>
+                        <img src={pista.pistas_img} alt="pista" />
+                        <button className='w-40 text-white bg-red-600 rounded-full p-2 mt-3' onClick={() => eliminarPista(pista.pistas_id)}>Eliminar</button>
+                    </div>
+                ))}
+        </div>
+
+        <div className="grid justify-items-center alig-center hidden w-80 mt-14" ref={verLugarDiv}>
+            <p>Al eliminar un lugar, se eliminaran sus pistas.</p>
+            {lugares.map(lugar => (
+                <div className='mt-5' key={lugar.cords_id}>
+                    <p> {lugar.cords_titulo} </p>
+                    <p>Lugar Falso 1: {lugar.cords_fake1}</p>
+                    <p>Lugar Falso 1: {lugar.cords_fake2}</p>
+                    <button className='w-40 text-white bg-red-600 rounded-full p-2 mt-3' onClick={() => eliminarLugar(lugar.cords_id)}>Eliminar</button>
+                </div>
+            ))}
+        </div>
+
         <form ref={eventoForm} onSubmit={handleSubmit} className="  grid justify-items-center  hidden w-80 mt-14" action="">
             <h2 className='text-xl mb-8'>Agregar Evento</h2>
             <label htmlFor="">Nombre del Evento</label>
@@ -233,7 +391,7 @@ const Admin = () => {
             <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
         </form>
 
-        <form ref={lugarForm} onSubmit={handleSubmit} className="grid justify-items-center alig-center hidden w-80 mt-14" action="">
+        <form ref={enviarLugarForm} onSubmit={handleSubmit} className="grid justify-items-center alig-center hidden w-80 mt-14" action="">
             <h2 className='text-xl mb-8'>Agregar Lugar</h2>
             <label className='mt-4' htmlFor="">Nombre del Lugar</label>
             <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
@@ -245,7 +403,7 @@ const Admin = () => {
             <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
         </form>
 
-        <form ref={pistaForm} onSubmit={handleSubmit} className="grid justify-items-center alig-center hidden w-80 mt-14" action="">
+        <form ref={enviarPistaForm} onSubmit={handleSubmit} className="grid justify-items-center alig-center hidden w-80 mt-14" action="">
             <h2 className='text-xl mb-8'>Agregar Pista</h2>
             <label htmlFor="">Seleccionar Lugar</label>
             <select name="lugar" id="">

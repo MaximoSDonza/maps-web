@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import LoadScreen from './components/LoadScreen';
 import { useState, useEffect } from "react";
-import MiProgreso from "./routes/MiProgreso.jsx";
 
 function App() {
 
@@ -19,7 +18,6 @@ function App() {
         <Route path='/Admin' element={<Admin />} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Register' element={<Registrar />} />
-        <Route path='/MiProgreso' element={<MiProgreso />} />
         <Route path="/*" element={<Navigate to='/' />} />
       </Routes>
       <Footer />

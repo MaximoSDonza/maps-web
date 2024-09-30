@@ -69,11 +69,6 @@ const Navbar = () => {
               <a className='text-xl' href="/Admin">Admin Menu</a>
             </li>
           )}
-          {!isAdmin && (
-            <li className='mx-4 my-6 md:my-0'>
-              <a className='text-xl' href="/MiProgreso">Mi Progreso</a>
-            </li>
-          )}
         </ul>    
         
         <button className='bg-green-500 text-white px-6 py-2 mx-4 hover:bg-green-600' onClick={()=>{cerrarSesion()}}>Cerrar Sesión</button>      
