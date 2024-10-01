@@ -293,30 +293,36 @@ const Admin = () => {
     
     // ELIMINAR
 
-    const eliminarPista = (id)=> {
-        Axios.post(newapiUrl + "Pistas/eliminarPista.php",{
-            idPista: id
-        }).then((result) => {
-            if(result.data.success){
-                alert("Pista eliminada con exito.")
-            }else{
-                alert("ERROR al eliminar Pista.")
+    const eliminarPista = (idPista)=> {
+        const formData = new FormData();
+        formData.append('idPista', idPista);
+
+        Axios.post(newapiUrl + "Cordenadas/eliminarPista.php", formData)
+        .then((result) => {
+            if (result.data.success) {
+                alert("Pista eliminada con éxito.");
+            } else {
+                alert("ERROR al eliminar Pista.");
             }
-        }).catch((error) => {
+        })
+        .catch((error) => {
             console.error("Hubo un error al eliminar la pista", error);
         });
     }
 
-    const eliminarLugar = (id)=> {
-        Axios.post(newapiUrl+"Cordenadas/eliminarCordenada.php",{
-            idCord: id,
-        }).then((result) => {
-            if(result.data.success){
-                alert("Lugar eliminado con exito.")
-            }else{
-                alert("ERROR al eliminar Lugar.")
+    const eliminarLugar = (idCord)=> {
+        const formData = new FormData();
+        formData.append('idCord', idCord);
+
+        Axios.post(newapiUrl + "Cordenadas/eliminarCordenada.php", formData)
+        .then((result) => {
+            if (result.data.success) {
+                alert("Lugar eliminado con éxito.");
+            } else {
+                alert("ERROR al eliminar Lugar.");
             }
-        }).catch((error) => {
+        })
+        .catch((error) => {
             console.error("Hubo un error al eliminar el lugar", error);
         });
     }
