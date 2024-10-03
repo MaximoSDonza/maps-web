@@ -5,6 +5,7 @@ import LoadScreen from '../components/LoadScreen';
 const Admin = () => {
     const [loading, setLoading] = useState(true);
     const [eventos, setEventos] = useState([]);
+    const [historialPuntos, setHistorialPuntos] = useState([]);
     const [historial, setHistorial] = useState([]);
     const [lugares, setLugares] = useState([]);
     const [pistas, setPistas] = useState([]);
@@ -14,6 +15,7 @@ const Admin = () => {
     const [recarga, setRecarga] = useState(0);
 
     const historialLogin = useRef(null);
+    const historialProgreso = useRef(null);
     const eventoForm = useRef(null);
     const enviarLugarForm = useRef(null);
     const enviarPistaForm = useRef(null);
@@ -58,19 +60,25 @@ const Admin = () => {
         Axios.get(newapiUrl+"Cordenadas/obtenerCordenadas.php").then((result) => {
             setLugares(result.data.cords);
         }).catch((error) => {
-            console.error("Hubo un error al comprobar los eventos", error);
+            console.error("Hubo un error al comprobar las cordenadas", error);
         });
 
         Axios.get(newapiUrl+"Pistas/obtenerPistas.php").then((result) => {
             setPistas(result.data.pistas);
         }).catch((error) => {
-            console.error("Hubo un error al comprobar los eventos", error);
+            console.error("Hubo un error al comprobar las pistas", error);
         });
 
         Axios.get(newapiUrl+"Historial/obtenerHistorialLogin.php").then((result) => {
             setHistorial(result.data.historial);
         }).catch((error) => {
-            console.error("Hubo un error al comprobar los eventos", error);
+            console.error("Hubo un error al comprobar el historial", error);
+        });
+
+        Axios.get(newapiUrl+"Historial/obtenerHistorialProgreso.php").then((result) => {
+            setHistorialPuntos(result.data.historial);
+        }).catch((error) => {
+            console.error("Hubo un error al comprobar el historial", error);
         });
         
     }, [recarga]);
@@ -94,7 +102,38 @@ const Admin = () => {
                 verPistaDiv.current.classList.add('hidden');
             }
 
+            if(!historialProgreso.current.classList.contains('hidden')){
+                historialProgreso.current.classList.add('hidden');
+            }
+
             historialLogin.current.classList.remove('hidden');
+        }
+        
+    }
+
+    const verHistorialProgreso = () =>{
+        if(historialProgreso.current.classList.contains('hidden')){
+            if(!enviarLugarForm.current.classList.contains('hidden')){
+                enviarLugarForm.current.classList.add('hidden');
+            }
+            
+            if(!enviarPistaForm.current.classList.contains('hidden')){
+                enviarPistaForm.current.classList.add('hidden');
+            }
+
+            if(!verLugarDiv.current.classList.contains('hidden')){
+                verLugarDiv.current.classList.add('hidden');
+            }
+
+            if(!verPistaDiv.current.classList.contains('hidden')){
+                verPistaDiv.current.classList.add('hidden');
+            }
+
+            if(!historialLogin.current.classList.contains('hidden')){
+                historialLogin.current.classList.add('hidden');
+            }
+
+            historialProgreso.current.classList.remove('hidden');
         }
         
     }
@@ -142,6 +181,10 @@ const Admin = () => {
                 verPistaDiv.current.classList.add('hidden');
             }
 
+            if(!historialProgreso.current.classList.contains('hidden')){
+                historialProgreso.current.classList.add('hidden');
+            }
+
             enviarLugarForm.current.classList.remove('hidden');
         }
     }
@@ -152,6 +195,10 @@ const Admin = () => {
                 enviarLugarForm.current.classList.add('hidden');
             }
             
+            if(!historialProgreso.current.classList.contains('hidden')){
+                historialProgreso.current.classList.add('hidden');
+            }
+
             if(!historialLogin.current.classList.contains('hidden')){
                 historialLogin.current.classList.add('hidden');
             }
@@ -176,6 +223,10 @@ const Admin = () => {
         if(verLugarDiv.current.classList.contains('hidden')){
             if(!enviarLugarForm.current.classList.contains('hidden')){
                 enviarLugarForm.current.classList.add('hidden');
+            }
+
+            if(!historialProgreso.current.classList.contains('hidden')){
+                historialProgreso.current.classList.add('hidden');
             }
 
             if(!enviarPistaForm.current.classList.contains('hidden')){
@@ -214,6 +265,10 @@ const Admin = () => {
 
             if(!verLugarDiv.current.classList.contains('hidden')){
                 verLugarDiv.current.classList.add('hidden');
+            }
+
+            if(!historialProgreso.current.classList.contains('hidden')){
+                historialProgreso.current.classList.add('hidden');
             }
 
             // if(!eventoForm.current.classList.contains('hidden')){
@@ -269,7 +324,7 @@ const Admin = () => {
                     alert(result.data.error)
                    }
                 }).catch((error) => {
-                    console.error("Hubo un error al crear el evento", error);
+                    console.error("Hubo un error al crear el lugar", error);
                 });
                 break;
             case 'pista':
@@ -346,6 +401,8 @@ const Admin = () => {
         <div className='flex flex-col lg:flex-row lg:gap-8 gap-1'>
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialLogin()} >Historial de Sesion</button>
 
+            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialProgreso()} >Historial de Progreso</button>
+
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarLugar()} >Agregar Lugar</button>
             
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verLugares()} >ver Lugares</button>
@@ -366,6 +423,25 @@ const Admin = () => {
                                 <tr key={registro.hLogin_id}>
                                     <td>{registro.users_nombre}</td>
                                     <td>{registro.ultima_fecha_logueo}</td>
+                                </tr>
+                            ))}
+                </tbody>
+            </table>
+        </div>
+
+        <div ref={historialProgreso} className='grid justify-items-center  hidden w-80 mt-14'>
+            <table>
+                <thead>
+                    <td>Usuario</td>
+                    <td>Punto</td>
+                    <td>Ult. vez que Jugó</td>
+                </thead>
+                <tbody>
+                    {historialPuntos.map(registro => (
+                                <tr key={registro.hActividad_id}>
+                                    <td>{registro.users_nombre}</td>
+                                    <td>{registro.position}</td>
+                                    <td>{registro.hRuta_fechaUlt}</td>
                                 </tr>
                             ))}
                 </tbody>
