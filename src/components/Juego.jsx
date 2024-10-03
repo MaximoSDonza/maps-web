@@ -29,30 +29,38 @@ const Juego = () => {
         Axios.get(newapiUrl + "Juego/obtenerCamino.php", {
             params: { userId: identifierCookie }
         }).then((result) => {
-            const cordsData = result.data.cords || []; 
-            const pistasData = result.data.pistas || [];
-    
-            setCords(cordsData);
-            setPistas(pistasData);
-    
-            if (cordsData.length > 0) {
-                const mixed = cordsData.flatMap(cord => [
-                    { text: cord.cords_titulo, isCorrect: true },
-                    { text: cord.cords_fake1, isCorrect: false },
-                    { text: cord.cords_fake2, isCorrect: false }
-                ]).sort(() => Math.random() - 0.5);
-    
-                setMixedOptions(mixed);
-                setShowForm(false);
+            if (result.data) {
+                const cordsData = result.data.cords || []; 
+                const pistasData = result.data.pistas || [];
+            
+                setCords(cordsData);
+                setPistas(pistasData);
+            
+                if (cordsData.length > 0) {
+                    const mixed = cordsData.flatMap(cord => [
+                        { text: cord.cords_titulo, isCorrect: true },
+                        { text: cord.cords_fake1, isCorrect: false },
+                        { text: cord.cords_fake2, isCorrect: false }
+                    ]).sort(() => Math.random() - 0.5);
+            
+                    setMixedOptions(mixed);
+                    setShowForm(false);
+                } else {
+                    setCollage(result.data.collage);
+                }
             } else {
-                setCollage(result.data.collage);
-                setFinal(true);
+                console.error("Los datos de la API no están definidos.");
             }
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
         });
     }, [recarga]);
-    
+
+    useEffect(() => {
+        if (collage) {
+            setFinal(true);
+        }
+    }, [collage]);
     
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -107,14 +115,22 @@ const Juego = () => {
     const downloadCollage = () => {
         if (collage) {
             const link = document.createElement('a');
-            link.href = `data:image/jpeg;base64,${collage}`;
-            link.download = 'collage.jpg';
+            link.href = `data:image/png;base64,${collage}`;
+            link.download = 'collage.png';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
 
-            // Aquí puedes ejecutar la función adicional
-            
+            const formData = new FormData();
+            formData.append('idUser', identifierCookie);
+            formData.append('idRuta', 1);
+            Axios.post(newapiUrl + "Juego/terminarJuego.php", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).catch((error) => {
+                console.error("Hubo un error al terminar el juego.", error);
+            });
         }
     };
 
@@ -128,8 +144,8 @@ const Juego = () => {
                 <div>
                     {collage && (
                         <div>
-                            <img src={`data:image/jpeg;base64,${collage}`} alt="Collage" />
-                            <button onClick={downloadCollage}>Descargar Collage</button>
+                            <img className='w-92 h-92' src={`data:image/png;base64,${collage}`} alt="Collage" />
+                            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={downloadCollage}>Descargar Collage</button>
                         </div>
                     )}
                 </div>

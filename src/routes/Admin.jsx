@@ -11,6 +11,7 @@ const Admin = () => {
     const [longitud, setLongitud] = useState('');
     const [latitud, setLatitud] = useState('');
     const [file, setFile] = useState(null);
+    const [recarga, setRecarga] = useState(0);
 
     const historialLogin = useRef(null);
     const eventoForm = useRef(null);
@@ -72,7 +73,7 @@ const Admin = () => {
             console.error("Hubo un error al comprobar los eventos", error);
         });
         
-    }, []);
+    }, [recarga]);
 
     // MOSTRAR ESCONDER
     const verHistorialLogin = () =>{
@@ -247,7 +248,8 @@ const Admin = () => {
                     nombreRuta:event.target.elements.nombre.value
                 }).then((result) => {
                    if(result){
-                    alert("Evento creado con exito.")
+                    alert("Evento creado con exito.");
+                    setRecarga(recarga+1);
                    }
                 }).catch((error) => {
                     console.error("Hubo un error al crear el evento", error);
@@ -261,7 +263,8 @@ const Admin = () => {
                     cordFake2: event.target.elements.fake2.value
                 }).then((result) => {
                    if(result.data.success){
-                    alert("Lugar creado con exito.")
+                    alert("Lugar creado con exito.");
+                    setRecarga(recarga+1);
                    }else{
                     alert(result.data.error)
                    }
@@ -282,6 +285,7 @@ const Admin = () => {
                 }).then((result) => {
                     if (result) {
                         alert("Pista creada con éxito.");
+                        setRecarga(recarga+1);
                     }
                 }).catch((error) => {
                     console.error("Hubo un error al crear la pista", error);
@@ -301,6 +305,7 @@ const Admin = () => {
         .then((result) => {
             if (result.data.success) {
                 alert("Pista eliminada con éxito.");
+                setRecarga(recarga+1);
             } else {
                 alert("ERROR al eliminar Pista.");
             }
@@ -318,6 +323,7 @@ const Admin = () => {
         .then((result) => {
             if (result.data.success) {
                 alert("Lugar eliminado con éxito.");
+                setRecarga(recarga+1);
             } else {
                 alert("ERROR al eliminar Lugar.");
             }
