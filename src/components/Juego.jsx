@@ -16,7 +16,8 @@ const Juego = () => {
     const [collage, setCollage] = useState(null);
     const [loading, setLoading] = useState(false);
     const fotoForm = useRef(null);
-
+    const fileInputRef = useRef(null);
+    
     useEffect(() => {
         Axios.get(newapiUrl+"Juego/comprobarCamino.php", {
             params: {userId: identifierCookie}
@@ -105,6 +106,9 @@ const Juego = () => {
                         setClickedButtons([]);
                         setRecarga(recarga+1);
                         setFile(null);
+                        if (fileInputRef.current) {
+                            fileInputRef.current.value = '';
+                        }
                     }
                 }).catch((error) => {
                     console.error("Hubo un error al avanzar.", error);
@@ -144,7 +148,7 @@ const Juego = () => {
                 <div>
                     {collage && (
                         <div>
-                            <img className='w-92 h-92' src={`data:image/png;base64,${collage}`} alt="Collage" />
+                            <img className='w-96 h-96' src={`data:image/png;base64,${collage}`} alt="Collage" />
                             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={downloadCollage}>Descargar Collage</button>
                         </div>
                     )}
@@ -153,7 +157,7 @@ const Juego = () => {
                 <div>
                     {pistas.map(pista => (
                         <div key={pista.pistas_id}>
-                            <img className='w-40 h-40' src={pista.pistas_img} alt="" />
+                            <img className='w-96 h-96' src={pista.pistas_img} alt="" />
                             <p>{pista.pistas_desc}</p>
                         </div>
                     ))}
@@ -173,6 +177,7 @@ const Juego = () => {
                                 accept="image/*"
                                 name='foto'
                                 onChange={handleFileChange}
+                                ref={fileInputRef}
                             />
                             <button className='w-40 text-white bg-green-500 rounded-full p-2 mt-8' type="submit">Subir Foto</button>
                         </form>

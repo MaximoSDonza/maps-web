@@ -356,7 +356,7 @@ const Admin = () => {
         const formData = new FormData();
         formData.append('idPista', idPista);
 
-        Axios.post(newapiUrl + "Cordenadas/eliminarPista.php", formData)
+        Axios.post(newapiUrl + "Pistas/eliminarPista.php", formData)
         .then((result) => {
             if (result.data.success) {
                 alert("Pista eliminada con éxito.");
@@ -453,7 +453,7 @@ const Admin = () => {
                     <div className='mt-5' key={pista.pistas_id}>
                         <p>Pertenece a: {pista.cords_titulo}</p>
                         <p> {pista.pistas_desc} </p>
-                        <img src={pista.pistas_img} alt="pista" />
+                        <img className='w-96 h-96' src={pista.pistas_img} alt="pista" />
                         <button className='w-40 text-white bg-red-600 rounded-full p-2 mt-3' onClick={() => eliminarPista(pista.pistas_id)}>Eliminar</button>
                     </div>
                 ))}
