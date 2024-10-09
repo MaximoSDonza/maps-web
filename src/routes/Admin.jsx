@@ -6,6 +6,7 @@ const Admin = () => {
     const [loading, setLoading] = useState(true);
     const [eventos, setEventos] = useState([]);
     const [historialPuntos, setHistorialPuntos] = useState([]);
+    const [historialTerminados, setHistorialTerminados] = useState([]);
     const [historial, setHistorial] = useState([]);
     const [lugares, setLugares] = useState([]);
     const [pistas, setPistas] = useState([]);
@@ -401,15 +402,15 @@ const Admin = () => {
         <div className='flex flex-col lg:flex-row lg:gap-8 gap-1'>
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialLogin()} >Historial de Sesion</button>
 
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialProgreso()} >Historial de Progreso</button>
+            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialProgreso()} >Ver usuarios en progreso</button>
 
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarLugar()} >Agregar Lugar</button>
             
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verLugares()} >ver Lugares</button>
+            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verLugares()} >Ver Lugares</button>
             
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarPista()} >Agregar Pista</button>
 
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verPistas()} >ver Pistas</button>
+            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verPistas()} >Ver Pistas</button>
         </div>
 
         <div ref={historialLogin} className='grid justify-items-center  hidden w-80 mt-14'>

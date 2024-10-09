@@ -15,7 +15,8 @@ const Juego = () => {
     const [clickedButtons, setClickedButtons] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [final, setFinal] = useState(false);
-    const [imagesLoaded, setImagesLoaded] = useState(0);
+    const [finalLoad, setFinalLoad] = useState(false);
+    const [imagesLoaded, setImagesLoaded] = useState(null);
     const [collage, setCollage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
@@ -152,12 +153,11 @@ const Juego = () => {
     };
 
     useEffect(() => {
-        if (imagesLoaded === pistas.length && pistas.length > 0) {
+        if (pistas.length === imagesLoaded || finalLoad) {
             setLoading(false);
-        } else {
-            setLoading(true);
         }
-    }, [imagesLoaded, pistas.length]);
+    }, [imagesLoaded, pistas.length, finalLoad]);
+
 
     if (loading) {
         return <LoadScreen />;
@@ -169,7 +169,12 @@ const Juego = () => {
                 <div>
                     {collage && (
                         <div>
-                            <img className='w-96 h-96' src={`data:image/png;base64,${collage}`} alt="Collage" />
+                            <img className='w-96 h-96'
+                                src={`data:image/png;base64,${collage}`}
+                                alt="Collage"
+                                onLoad={() =>{
+                                    setFinalLoad(true);
+                                }} />
                             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={downloadCollage}>Descargar Collage</button>
                         </div>
                     )}
@@ -181,7 +186,9 @@ const Juego = () => {
                             <img className='w-96 h-96'
                                 src={pista.pistas_img}
                                 alt=""
-                                onLoad={() => setImagesLoaded(prev => prev + 1)} />
+                                onLoad={() => {
+                                    setImagesLoaded(prev => prev + 1);
+                                }} />
                             <p>{pista.pistas_desc}</p>
                         </div>
                     ))}
@@ -199,7 +206,7 @@ const Juego = () => {
                         <form ref={fotoForm} className='flex flex-col items-center w-full max-w-sm mx-auto p-4' onSubmit={handleSubmit}>
                             <input
                                 type="file"
-                                accept="image/*"
+                                accept="image/png, image/jpeg"
                                 name='foto'
                                 onChange={handleFileChange}
                                 ref={fileInputRef}
