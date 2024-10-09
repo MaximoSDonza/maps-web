@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import Axios from 'axios';
 import LoadScreen from './LoadScreen';
+import Compressor from 'compressorjs';
 
 const Juego = () => {
     const identifierCookie = Cookies.get('userId');
@@ -74,7 +75,15 @@ const Juego = () => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
             if (selectedFile.type.startsWith('image/')) {
-                setFile(selectedFile);
+                new Compressor(selectedFile, {
+                    quality: 0.6,
+                    success(compressedFile) {
+                        setFile(compressedFile);
+                    },
+                    error(err) {
+                        console.error(err.message);
+                    },
+                });
             } else {
                 alert('Por favor, selecciona un archivo de imagen.');
             }
@@ -145,6 +154,8 @@ const Juego = () => {
     useEffect(() => {
         if (imagesLoaded === pistas.length && pistas.length > 0) {
             setLoading(false);
+        } else {
+            setLoading(true);
         }
     }, [imagesLoaded, pistas.length]);
 
