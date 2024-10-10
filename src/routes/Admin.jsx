@@ -17,6 +17,7 @@ const Admin = () => {
 
     const historialLogin = useRef(null);
     const historialProgreso = useRef(null);
+    const historialTerminado = useRef(null);
     const eventoForm = useRef(null);
     const enviarLugarForm = useRef(null);
     const enviarPistaForm = useRef(null);
@@ -81,10 +82,48 @@ const Admin = () => {
         }).catch((error) => {
             console.error("Hubo un error al comprobar el historial", error);
         });
+
+        Axios.get(newapiUrl+"Historial/obtenerHistorialTerminados.php").then((result) => {
+            setHistorialTerminados(result.data.historial);
+        }).catch((error) => {
+            console.error("Hubo un error al comprobar el historial", error);
+        });
         
     }, [recarga]);
 
     // MOSTRAR ESCONDER
+    
+    const verHistorialTerminado = () =>{
+        if(historialTerminado.current.classList.contains('hidden')){
+            if(!enviarLugarForm.current.classList.contains('hidden')){
+                enviarLugarForm.current.classList.add('hidden');
+            }
+            
+            if(!enviarPistaForm.current.classList.contains('hidden')){
+                enviarPistaForm.current.classList.add('hidden');
+            }
+
+            if(!verLugarDiv.current.classList.contains('hidden')){
+                verLugarDiv.current.classList.add('hidden');
+            }
+
+            if(!verPistaDiv.current.classList.contains('hidden')){
+                verPistaDiv.current.classList.add('hidden');
+            }
+
+            if(!historialProgreso.current.classList.contains('hidden')){
+                historialProgreso.current.classList.add('hidden');
+            }
+
+            if(!historialLogin.current.classList.contains('hidden')){
+                historialLogin.current.classList.add('hidden');
+            }
+
+            historialTerminado.current.classList.remove('hidden');
+        }
+        
+    }
+    
     const verHistorialLogin = () =>{
         if(historialLogin.current.classList.contains('hidden')){
             if(!enviarLugarForm.current.classList.contains('hidden')){
@@ -105,6 +144,10 @@ const Admin = () => {
 
             if(!historialProgreso.current.classList.contains('hidden')){
                 historialProgreso.current.classList.add('hidden');
+            }
+
+            if(!historialTerminado.current.classList.contains('hidden')){
+                historialTerminado.current.classList.add('hidden');
             }
 
             historialLogin.current.classList.remove('hidden');
@@ -132,6 +175,10 @@ const Admin = () => {
 
             if(!historialLogin.current.classList.contains('hidden')){
                 historialLogin.current.classList.add('hidden');
+            }
+
+            if(!historialTerminado.current.classList.contains('hidden')){
+                historialTerminado.current.classList.add('hidden');
             }
 
             historialProgreso.current.classList.remove('hidden');
@@ -186,6 +233,10 @@ const Admin = () => {
                 historialProgreso.current.classList.add('hidden');
             }
 
+            if(!historialTerminado.current.classList.contains('hidden')){
+                historialTerminado.current.classList.add('hidden');
+            }
+
             enviarLugarForm.current.classList.remove('hidden');
         }
     }
@@ -210,6 +261,10 @@ const Admin = () => {
 
             if(!verPistaDiv.current.classList.contains('hidden')){
                 verPistaDiv.current.classList.add('hidden');
+            }
+
+            if(!historialTerminado.current.classList.contains('hidden')){
+                historialTerminado.current.classList.add('hidden');
             }
 
             // if(!eventoForm.current.classList.contains('hidden')){
@@ -242,6 +297,10 @@ const Admin = () => {
                 verPistaDiv.current.classList.add('hidden');
             }
 
+            if(!historialTerminado.current.classList.contains('hidden')){
+                historialTerminado.current.classList.add('hidden');
+            }
+
             // if(!eventoForm.current.classList.contains('hidden')){
             //     eventoForm.current.classList.add('hidden');
             // }
@@ -270,6 +329,10 @@ const Admin = () => {
 
             if(!historialProgreso.current.classList.contains('hidden')){
                 historialProgreso.current.classList.add('hidden');
+            }
+
+            if(!historialTerminado.current.classList.contains('hidden')){
+                historialTerminado.current.classList.add('hidden');
             }
 
             // if(!eventoForm.current.classList.contains('hidden')){
@@ -365,8 +428,7 @@ const Admin = () => {
             } else {
                 alert("ERROR al eliminar Pista.");
             }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             console.error("Hubo un error al eliminar la pista", error);
         });
     }
@@ -404,6 +466,8 @@ const Admin = () => {
 
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialProgreso()} >Ver usuarios en progreso</button>
 
+            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialTerminado()} >Ver usuarios terminados</button>
+
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarLugar()} >Agregar Lugar</button>
             
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verLugares()} >Ver Lugares</button>
@@ -411,6 +475,25 @@ const Admin = () => {
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarPista()} >Agregar Pista</button>
 
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verPistas()} >Ver Pistas</button>
+        </div>
+
+        <div ref={historialTerminado} className='grid justify-items-center  hidden w-80 mt-14'>
+            <table>
+                <thead>
+                    <td>Usuario</td>
+                    <td>Veces que terminó</td>
+                    <td>Ultima vez que terminó</td>
+                </thead>
+                <tbody>
+                    {historialTerminados.map(registro => (
+                                <tr key={registro.users_nombre}>
+                                    <td>{registro.users_nombre}</td>
+                                    <td>{registro.veces_usuario_en_tabla}</td>
+                                    <td>{registro.ultima_fecha_ingreso}</td>
+                                </tr>
+                            ))}
+                </tbody>
+            </table>
         </div>
 
         <div ref={historialLogin} className='grid justify-items-center  hidden w-80 mt-14'>
