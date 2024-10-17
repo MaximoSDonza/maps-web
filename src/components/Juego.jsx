@@ -182,8 +182,8 @@ const Juego = () => {
             ) : (
                 <div>
                     {pistas.map(pista => (
-                        <div className='mb-8' key={pista.pistas_id}>
-                            <img className='w-96 h-96'
+                        <div className='w-96 h-96 overflow-hidden mb-8' key={pista.pistas_id}>
+                            <img className='w-full h-full object-contain'
                                 src={pista.pistas_img}
                                 alt=""
                                 onLoad={() => {
@@ -192,16 +192,18 @@ const Juego = () => {
                             <p>{pista.pistas_desc}</p>
                         </div>
                     ))}
-                    {mixedOptions.map((option, index) => (
-                        <button
-                            key={index}
-                            onClick={() => handleClick(index, option.isCorrect)}
-                            disabled={buttonsDisabled} // Deshabilita el botón si buttonsDisabled es true
-                            className={`m-2 p-2 rounded ${clickedButtons.includes(index) ? (option.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300'}`}
-                        >
-                            {option.text}
-                        </button>
-                    ))}
+                    <div className='grid lg:flex'>
+                        {mixedOptions.map((option, index) => (
+                            <button
+                                key={index}
+                                onClick={() => handleClick(index, option.isCorrect)}
+                                disabled={buttonsDisabled} // Deshabilita el botón si buttonsDisabled es true
+                                className={`m-2 p-2 rounded ${clickedButtons.includes(index) ? (option.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300'}`}
+                            >
+                                {option.text}
+                            </button>
+                        ))}
+                    </div>
                     {showForm && (
                         <form ref={fotoForm} className='flex flex-col items-center w-full max-w-sm mx-auto p-4' onSubmit={handleSubmit}>
                             <input

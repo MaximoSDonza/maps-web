@@ -62,7 +62,7 @@ const Home = () => {
     }
     
     return (
-        <div className='grid text-center justify-center mt-12 mb-24'>
+        <div className='grid text-lg text-center justify-center mt-12 mb-24'>
             {!isPlaying ? (
                 <>
                     <h2 className='text-2xl mb-14'>Hola <b>{userName}</b></h2>

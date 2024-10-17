@@ -45,7 +45,7 @@ const Registrar = () => {
     }
 
   return (
-    <div className='grid w-full h-full justify-items-center alig-center mt-12 mb-32'>
+    <div className='grid text-lg w-full h-full justify-items-center alig-center mt-12 mb-32'>
         <h2 className="text-4xl text-green-600 mt-5 mb-4 text-center">Registrarse</h2>
         <img className="mb-2 w-36 h-36" src={logo} alt="LogoJardin" />
         <form className='mt-8 grid text-center' onSubmit={registrar}>

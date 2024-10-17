@@ -459,7 +459,7 @@ const Admin = () => {
     }
 
   return (
-    <div className='w-full text-center flex flex-col justify-center items-center mt-12 mb-32'>
+    <div className='w-full text-lg text-center flex flex-col justify-center items-center mt-12 mb-32'>
         
         <div className='flex flex-col lg:flex-row lg:gap-8 gap-1'>
             <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialLogin()} >Historial de Sesion</button>

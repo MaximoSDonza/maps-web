@@ -50,7 +50,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='p-5 text-green-400 md:flex md:justify-between'>
+    <nav className='p-5 text-green-400 text-lg md:flex md:justify-between'>
       
       <span className='text-3xl cursor-pointer mx-2 md:hidden block'>
         <i name="menu" className="fa-solid fa-bars" onClick={()=>{handleMenu(event)}}></i>
