@@ -524,7 +524,7 @@ const Admin = () => {
                     {historialPuntos.map(registro => (
                                 <tr key={registro.hActividad_id}>
                                     <td>{registro.users_nombre}</td>
-                                    <td>{registro.position}</td>
+                                    <td>{registro.position} {registro.cords_titulo} </td>
                                     <td>{registro.hRuta_fechaUlt}</td>
                                 </tr>
                             ))}

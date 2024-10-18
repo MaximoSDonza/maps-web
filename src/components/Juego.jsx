@@ -11,6 +11,8 @@ const Juego = () => {
     const [file, setFile] = useState(null);
     const [cords, setCords] = useState([]);
     const [pistas, setPistas] = useState([]);
+    const [position, setPosition] = useState('');
+    const [total, setTotal] = useState('');
     const [mixedOptions, setMixedOptions] = useState([]);
     const [clickedButtons, setClickedButtons] = useState([]);
     const [showForm, setShowForm] = useState(false);
@@ -29,6 +31,13 @@ const Juego = () => {
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
         });
+        Axios.get(newapiUrl+"Cordenadas/obtenerTotalCordenadas.php")
+        .then((result) =>{
+            setTotal(result.data.total);
+        })
+        .catch((error) => {
+            console.error("Hubo un error al jugar.", error);
+        });
     }, []);
 
     useEffect(() => {
@@ -39,10 +48,10 @@ const Juego = () => {
             if (result.data) {
                 const cordsData = result.data.cords || [];
                 const pistasData = result.data.pistas || [];
-
+                const positionData = result.data.position.position || '';
                 setCords(cordsData);
                 setPistas(pistasData);
-
+                setPosition(positionData);
                 if (cordsData.length > 0) {
                     const mixed = cordsData.flatMap(cord => [
                         { text: cord.cords_titulo, isCorrect: true },
@@ -181,6 +190,7 @@ const Juego = () => {
                 </div>
             ) : (
                 <div>
+                    <h3 className='mb-5'>Punto {position}/{total}</h3>
                     {pistas.map(pista => (
                         <div className='w-96 h-96 overflow-hidden mb-8' key={pista.pistas_id}>
                             <img className='w-full h-full object-contain'
