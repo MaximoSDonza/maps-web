@@ -28,7 +28,9 @@ const Home = () => {
                         setUserId(result.data.result[0].users_id);
                         Cookies.set('userId', result.data.result[0].users_id, { expires: 7 });    
                         setUserName(result.data.result[0].users_nombre);
-                        setLoading(false);
+                        setTimeout(() => {
+                            setLoading(false);
+                        }, 1500);
                     } 
                 }else{
                     window.location.replace("/Login");

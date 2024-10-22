@@ -39,7 +39,9 @@ const Admin = () => {
                     if(result.data.result[0].users_rango!=1){
                         window.location.replace("/");
                     }else{
-                        setLoading(false);
+                        setTimeout(() => {
+                            setLoading(false);
+                        }, 1500);
                     }
                 }else{
                     window.location.replace("/Login");

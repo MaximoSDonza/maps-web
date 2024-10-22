@@ -68,10 +68,14 @@ const Juego = () => {
             } else {
                 console.error("Los datos de la API no están definidos.");
             }
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
         }).catch((error) => {
             console.error("Hubo un error al jugar.", error);
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
         });
     }, [recarga]);
 
@@ -131,10 +135,14 @@ const Juego = () => {
                         fileInputRef.current.value = '';
                     }
                 }
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000);
             }).catch((error) => {
                 console.error("Hubo un error al avanzar.", error);
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000);
             });
         }
     };
@@ -163,7 +171,9 @@ const Juego = () => {
 
     useEffect(() => {
         if (pistas.length === imagesLoaded || finalLoad) {
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
         }
     }, [imagesLoaded, pistas.length, finalLoad]);
 

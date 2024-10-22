@@ -15,7 +15,9 @@ const Registrar = () => {
         if(numeroCookie){
             window.location.replace("/");
         }else{
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 1500);
         }
     }, []);
 
