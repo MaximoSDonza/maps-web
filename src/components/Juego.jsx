@@ -186,57 +186,89 @@ const Juego = () => {
         <div>
             {final ? (
                 <div>
-                    {collage && (
-                        <div>
-                            <img className='w-96 h-96'
-                                src={`data:image/png;base64,${collage}`}
-                                alt="Collage"
-                                onLoad={() =>{
-                                    setFinalLoad(true);
-                                }} />
-                            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={downloadCollage}>Descargar Collage</button>
-                        </div>
-                    )}
+                {collage && (
+                    <div>
+                    <img
+                        className="w-96 h-96"
+                        src={`data:image/png;base64,${collage}`}
+                        alt="Collage final generado"
+                        onLoad={() => setFinalLoad(true)}
+                    />
+                    <button
+                        className="w-40 text-white bg-green-500 rounded-full p-2 my-3"
+                        onClick={downloadCollage}
+                        aria-label="Descargar el collage generado"
+                    >
+                        Descargar Collage
+                    </button>
+                    </div>
+                )}
                 </div>
             ) : (
                 <div>
-                    <h3 className='mb-5'>Punto {position}/{total}</h3>
-                    {pistas.map(pista => (
-                        <div className='w-96 h-96 overflow-hidden mb-8' key={pista.pistas_id}>
-                            <img className='w-full h-full object-contain'
-                                src={pista.pistas_img}
-                                alt=""
-                                onLoad={() => {
-                                    setImagesLoaded(prev => prev + 1);
-                                }} />
-                            <p>{pista.pistas_desc}</p>
-                        </div>
-                    ))}
-                    <div className='grid lg:flex'>
-                        {mixedOptions.map((option, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handleClick(index, option.isCorrect)}
-                                disabled={buttonsDisabled} // Deshabilita el botón si buttonsDisabled es true
-                                className={`m-2 p-2 rounded ${clickedButtons.includes(index) ? (option.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300'}`}
-                            >
-                                {option.text}
-                            </button>
-                        ))}
+                <h3 className="mb-5" aria-live="polite">
+                    Punto {position}/{total}
+                </h3>
+
+                {pistas.map((pista) => (
+                    <div className="w-96 h-96 overflow-hidden mb-8" key={pista.pistas_id}>
+                    <img
+                        className="w-full h-full object-contain"
+                        src={pista.pistas_img}
+                        alt={`Imagen de la pista: ${pista.pistas_desc}`}
+                        onLoad={() => setImagesLoaded((prev) => prev + 1)}
+                    />
+                    <p>{pista.pistas_desc}</p>
                     </div>
-                    {showForm && (
-                        <form ref={fotoForm} className='flex flex-col items-center w-full max-w-sm mx-auto p-4' onSubmit={handleSubmit}>
-                            <input
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                name='foto'
-                                onChange={handleFileChange}
-                                ref={fileInputRef}
-                                className="w-full p-2 mb-4 border rounded-md"
-                            />
-                            <button className='w-full text-white bg-green-500 rounded-full p-2 mt-4' type="submit">Subir Foto</button>
-                        </form>
-                    )}
+                ))}
+
+                <div className="grid lg:flex" role="group" aria-label="Opciones de respuesta">
+                    {mixedOptions.map((option, index) => (
+                    <button
+                        key={index}
+                        onClick={() => handleClick(index, option.isCorrect)}
+                        disabled={buttonsDisabled}
+                        className={`m-2 p-2 rounded ${clickedButtons.includes(index) ? (option.isCorrect ? 'bg-green-500' : 'bg-red-500') : 'bg-gray-300'}`}
+                        aria-pressed={clickedButtons.includes(index)}
+                        aria-label={`Opción: ${option.text}, ${option.isCorrect ? 'Correcta' : 'Incorrecta'}`}
+                    >
+                        {option.text}
+                    </button>
+                    ))}
+                </div>
+
+                {showForm && (
+                    <form
+                    ref={fotoForm}
+                    className="flex flex-col items-center w-full max-w-sm mx-auto p-4"
+                    onSubmit={handleSubmit}
+                    aria-label="Formulario para subir foto"
+                    >
+                    <label htmlFor="uploadFoto" className="sr-only">
+                        Subir Foto
+                    </label>
+                    <input
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        name="foto"
+                        id="uploadFoto"
+                        onChange={handleFileChange}
+                        ref={fileInputRef}
+                        className="w-full p-2 mb-4 border rounded-md"
+                        aria-describedby="uploadHelp"
+                    />
+                    <small id="uploadHelp" className="text-gray-500">
+                        Acepta formatos PNG y JPEG
+                    </small>
+                    <button
+                        className="w-full text-white bg-green-500 rounded-full p-2 mt-4"
+                        type="submit"
+                        aria-label="Subir la foto seleccionada"
+                    >
+                        Subir Foto
+                    </button>
+                    </form>
+                )}
                 </div>
             )}
         </div>

@@ -461,143 +461,173 @@ const Admin = () => {
     }
 
   return (
-    <div className='w-full text-lg text-center flex flex-col justify-center items-center mt-12 mb-32'>
-        
-        <div className='flex flex-col lg:flex-row lg:gap-8 gap-1'>
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialLogin()} >Historial de Sesion</button>
+    <div className="w-full text-lg text-center flex flex-col justify-center items-center mt-12 mb-32">
 
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialProgreso()} >Ver usuarios en progreso</button>
+        {/* Botones de acciones */}
+        <div className="flex flex-col lg:flex-row lg:gap-8 gap-1">
+            <button className="w-40 text-white bg-green-500 rounded-full p-2 my-3" onClick={verHistorialLogin} aria-label="Ver historial de sesión">
+            Historial de Sesión
+            </button>
 
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verHistorialTerminado()} >Ver usuarios terminados</button>
+            <button className="w-40 text-white bg-green-500 rounded-full p-2 my-3" onClick={verHistorialProgreso} aria-label="Ver usuarios en progreso">
+            Ver usuarios en progreso
+            </button>
 
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarLugar()} >Agregar Lugar</button>
-            
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verLugares()} >Ver Lugares</button>
-            
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>agregarPista()} >Agregar Pista</button>
+            <button className="w-40 text-white bg-green-500 rounded-full p-2 my-3" onClick={verHistorialTerminado} aria-label="Ver usuarios terminados">
+            Ver usuarios terminados
+            </button>
 
-            <button className='w-40 text-white bg-green-500 rounded-full p-2 my-3' onClick={()=>verPistas()} >Ver Pistas</button>
+            <button className="w-40 text-white bg-green-500 rounded-full p-2 my-3" onClick={agregarLugar} aria-label="Agregar lugar">
+            Agregar Lugar
+            </button>
+
+            <button className="w-40 text-white bg-green-500 rounded-full p-2 my-3" onClick={verLugares} aria-label="Ver lugares">
+            Ver Lugares
+            </button>
+
+            <button className="w-40 text-white bg-green-500 rounded-full p-2 my-3" onClick={agregarPista} aria-label="Agregar pista">
+            Agregar Pista
+            </button>
+
+            <button className="w-40 text-white bg-green-500 rounded-full p-2 my-3" onClick={verPistas} aria-label="Ver pistas">
+            Ver Pistas
+            </button>
         </div>
 
-        <div ref={historialTerminado} className='grid justify-items-center  hidden w-80 mt-14'>
-            <table>
-                <thead>
-                    <td>Usuario</td>
-                    <td>Veces que terminó</td>
-                    <td>Ultima vez que terminó</td>
-                </thead>
-                <tbody>
-                    {historialTerminados.map(registro => (
-                                <tr key={registro.users_nombre}>
-                                    <td>{registro.users_nombre}</td>
-                                    <td>{registro.veces_usuario_en_tabla}</td>
-                                    <td>{registro.ultima_fecha_ingreso}</td>
-                                </tr>
-                            ))}
-                </tbody>
-            </table>
-        </div>
-
-        <div ref={historialLogin} className='grid justify-items-center  hidden w-80 mt-14'>
-            <table>
-                <thead>
-                    <td>Usuario</td>
-                    <td>Ultima Fecha de Ingreso</td>
-                </thead>
-                <tbody>
-                    {historial.map(registro => (
-                                <tr key={registro.hLogin_id}>
-                                    <td>{registro.users_nombre}</td>
-                                    <td>{registro.ultima_fecha_logueo}</td>
-                                </tr>
-                            ))}
-                </tbody>
-            </table>
-        </div>
-
-        <div ref={historialProgreso} className='grid justify-items-center  hidden w-80 mt-14'>
-            <table>
-                <thead>
-                    <td>Usuario</td>
-                    <td>Punto</td>
-                    <td>Ult. vez que Jugó</td>
-                </thead>
-                <tbody>
-                    {historialPuntos.map(registro => (
-                                <tr key={registro.hActividad_id}>
-                                    <td>{registro.users_nombre}</td>
-                                    <td>{registro.position} {registro.cords_titulo} </td>
-                                    <td>{registro.hRuta_fechaUlt}</td>
-                                </tr>
-                            ))}
-                </tbody>
-            </table>
-        </div>
-        
-        <div className="grid justify-items-center alig-center hidden w-80 mt-14" ref={verPistaDiv}>
-            {pistas.map(pista => (
-                    <div className='mt-5' key={pista.pistas_id}>
-                        <p>Pertenece a: {pista.cords_titulo}</p>
-                        <p> {pista.pistas_desc} </p>
-                        <img className='w-96 h-96' src={pista.pistas_img} alt="pista" />
-                        <button className='w-40 text-white bg-red-600 rounded-full p-2 mt-3' onClick={() => eliminarPista(pista.pistas_id)}>Eliminar</button>
-                    </div>
+        {/* Tablas de datos */}
+        <div ref={historialTerminado} className="grid justify-items-center hidden w-80 mt-14" aria-live="polite">
+            <table aria-label="Historial de usuarios terminados">
+            <thead>
+                <tr>
+                <th>Usuario</th>
+                <th>Veces que terminó</th>
+                <th>Última vez que terminó</th>
+                </tr>
+            </thead>
+            <tbody>
+                {historialTerminados.map((registro) => (
+                <tr key={registro.users_nombre}>
+                    <td>{registro.users_nombre}</td>
+                    <td>{registro.veces_usuario_en_tabla}</td>
+                    <td>{registro.ultima_fecha_ingreso}</td>
+                </tr>
                 ))}
+            </tbody>
+            </table>
         </div>
 
-        <div className="grid justify-items-center alig-center hidden w-80 mt-14" ref={verLugarDiv}>
-            <p>Al eliminar un lugar, se eliminaran sus pistas.</p>
-            {lugares.map(lugar => (
-                <div className='mt-5' key={lugar.cords_id}>
-                    <p> {lugar.cords_titulo} </p>
-                    <p>Lugar Falso 1: {lugar.cords_fake1}</p>
-                    <p>Lugar Falso 1: {lugar.cords_fake2}</p>
-                    <button className='w-40 text-white bg-red-600 rounded-full p-2 mt-3' onClick={() => eliminarLugar(lugar.cords_id)}>Eliminar</button>
-                </div>
+        <div ref={historialLogin} className="grid justify-items-center hidden w-80 mt-14" aria-live="polite">
+            <table aria-label="Historial de sesiones de usuarios">
+            <thead>
+                <tr>
+                <th>Usuario</th>
+                <th>Última Fecha de Ingreso</th>
+                </tr>
+            </thead>
+            <tbody>
+                {historial.map((registro) => (
+                <tr key={registro.hLogin_id}>
+                    <td>{registro.users_nombre}</td>
+                    <td>{registro.ultima_fecha_logueo}</td>
+                </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>
+
+        <div ref={historialProgreso} className="grid justify-items-center hidden w-80 mt-14" aria-live="polite">
+            <table aria-label="Usuarios en progreso">
+            <thead>
+                <tr>
+                <th>Usuario</th>
+                <th>Punto</th>
+                <th>Última vez que Jugó</th>
+                </tr>
+            </thead>
+            <tbody>
+                {historialPuntos.map((registro) => (
+                <tr key={registro.hActividad_id}>
+                    <td>{registro.users_nombre}</td>
+                    <td>{registro.position} {registro.cords_titulo}</td>
+                    <td>{registro.hRuta_fechaUlt}</td>
+                </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>
+
+        {/* Sección de pistas */}
+        <div className="grid justify-items-center hidden w-80 mt-14" ref={verPistaDiv} aria-live="polite">
+            {pistas.map((pista) => (
+            <div className="mt-5" key={pista.pistas_id}>
+                <p>Pertenece a: {pista.cords_titulo}</p>
+                <p>{pista.pistas_desc}</p>
+                <img className="w-96 h-96" src={pista.pistas_img} alt="Imagen de la pista" />
+                <button className="w-40 text-white bg-red-600 rounded-full p-2 mt-3" onClick={() => eliminarPista(pista.pistas_id)} aria-label={`Eliminar pista ${pista.pistas_desc}`}>
+                Eliminar
+                </button>
+            </div>
             ))}
         </div>
 
-        <form ref={eventoForm} onSubmit={handleSubmit} className="  grid justify-items-center  hidden w-80 mt-14" action="">
-            <h2 className='text-xl mb-8'>Agregar Evento</h2>
-            <label htmlFor="">Nombre del Evento</label>
-            <input className='border-b-2 border-green-400' name='nombre' type="text" />
-            <input type="text" name="form" value='evento' hidden />
-            <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
+        {/* Sección de lugares */}
+        <div className="grid justify-items-center hidden w-80 mt-14" ref={verLugarDiv} aria-live="polite">
+            <p>Al eliminar un lugar, se eliminarán sus pistas.</p>
+            {lugares.map((lugar) => (
+            <div className="mt-5" key={lugar.cords_id}>
+                <p>{lugar.cords_titulo}</p>
+                <p>Lugar Falso 1: {lugar.cords_fake1}</p>
+                <p>Lugar Falso 2: {lugar.cords_fake2}</p>
+                <button className="w-40 text-white bg-red-600 rounded-full p-2 mt-3" onClick={() => eliminarLugar(lugar.cords_id)} aria-label={`Eliminar lugar ${lugar.cords_titulo}`}>
+                Eliminar
+                </button>
+            </div>
+            ))}
+        </div>
+
+        {/* Formularios de entrada */}
+        <form ref={eventoForm} onSubmit={handleSubmit} className="grid justify-items-center hidden w-80 mt-14" aria-label="Formulario para agregar evento">
+            <h2 className="text-xl mb-8">Agregar Evento</h2>
+            <label htmlFor="nombreEvento">Nombre del Evento</label>
+            <input className="border-b-2 border-green-400" id="nombreEvento" name="nombre" type="text" required />
+            <input type="text" name="form" value="evento" hidden />
+            <input className="w-40 text-white bg-green-500 rounded-full p-2 mt-5" type="submit" value="Agregar" />
         </form>
 
-        <form ref={enviarLugarForm} onSubmit={handleSubmit} className="grid justify-items-center alig-center hidden w-80 mt-14" action="">
-            <h2 className='text-xl mb-8'>Agregar Lugar</h2>
-            <label className='mt-4' htmlFor="">Nombre del Lugar</label>
-            <input className='border-b-2 border-green-400 mt-2' type="text" name="nombre" />
-            <label className='mt-4' htmlFor="">Nombre de lugar falso 1</label>
-            <input className='border-b-2 border-green-400 mt-2' type="text" name="fake1" />
-            <label className='mt-4' htmlFor="">Nombre de lugar falso 2</label>
-            <input className='border-b-2 border-green-400 mt-2' type="text" name="fake2" />
-            <input className='border-b-2 border-green-400 mt-2' type="text" name="form" value='lugar' hidden />
-            <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
+        <form ref={enviarLugarForm} onSubmit={handleSubmit} className="grid justify-items-center hidden w-80 mt-14" aria-label="Formulario para agregar lugar">
+            <h2 className="text-xl mb-8">Agregar Lugar</h2>
+            <label htmlFor="nombreLugar" className="mt-4">Nombre del Lugar</label>
+            <input className="border-b-2 border-green-400 mt-2" id="nombreLugar" name="nombre" type="text" required />
+            <label htmlFor="nombreFalso1" className="mt-4">Nombre de lugar falso 1</label>
+            <input className="border-b-2 border-green-400 mt-2" id="nombreFalso1" name="fake1" type="text" />
+            <label htmlFor="nombreFalso2" className="mt-4">Nombre de lugar falso 2</label>
+            <input className="border-b-2 border-green-400 mt-2" id="nombreFalso2" name="fake2" type="text" />
+            <input type="text" name="form" value="lugar" hidden />
+            <input className="w-40 text-white bg-green-500 rounded-full p-2 mt-5" type="submit" value="Agregar" />
         </form>
 
-        <form ref={enviarPistaForm} onSubmit={handleSubmit} className="grid justify-items-center alig-center hidden w-80 mt-14" action="">
-            <h2 className='text-xl mb-8'>Agregar Pista</h2>
-            <label htmlFor="">Seleccionar Lugar</label>
-            <select name="lugar" id="">
-                {lugares.map(lugar => (
-                        <option key={lugar.cords_id} value={lugar.cords_id}>
-                            {lugar.cords_titulo}
-                        </option>
-                    ))}
+        <form ref={enviarPistaForm} onSubmit={handleSubmit} className="grid justify-items-center hidden w-80 mt-14" aria-label="Formulario para agregar pista">
+            <h2 className="text-xl mb-8">Agregar Pista</h2>
+            <label htmlFor="seleccionarLugar">Seleccionar Lugar</label>
+            <select name="lugar" id="seleccionarLugar">
+            {lugares.map((lugar) => (
+                <option key={lugar.cords_id} value={lugar.cords_id}>
+                {lugar.cords_titulo}
+                </option>
+            ))}
             </select>
-            <label htmlFor="" className='mt-4'></label>
+            <label htmlFor="subirImagen" className="mt-4">Imagen de la Pista</label>
             <input
-                className='mt-2'
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
+            id="subirImagen"
+            className="mt-2"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
             />
-            <label className='mt-4' htmlFor="">Descripción de la Pista</label>
-            <input className='border-b-2 border-green-400 mt-2' type="text" name='pista' />
-            <input type="text" name="form" value='pista' hidden />
-            <input className='w-40 text-white bg-green-500 rounded-full p-2 mt-5' type="submit" />
+            <label htmlFor="descripcionPista" className="mt-4">Descripción de la Pista</label>
+            <input className="border-b-2 border-green-400 mt-2" id="descripcionPista" name="pista" type="text" required />
+            <input type="text" name="form" value="pista" hidden />
+            <input className="w-40 text-white bg-green-500 rounded-full p-2 mt-5" type="submit" value="Agregar" />
         </form>
     </div>
   )

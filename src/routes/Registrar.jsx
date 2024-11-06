@@ -47,31 +47,65 @@ const Registrar = () => {
     }
 
   return (
-    <div className='grid text-lg w-full h-full justify-items-center alig-center mt-12 mb-32'>
+    <div className="grid text-lg w-full h-full justify-items-center align-center mt-12 mb-32">
+        {/* Título de la página */}
         <h2 className="text-4xl text-green-600 mt-5 mb-4 text-center">Registrarse</h2>
-        <img className="mb-2 w-36 h-36" src={logo} alt="LogoJardin" />
-        <form className='mt-8 grid text-center' onSubmit={registrar}>
-            <label htmlFor="nombre">Ingrese su Nombre</label>
-            <input 
-                type="text"
-                id="nombre" 
-                className='my-2 border-b-2 border-green-400'
-                required
-                onChange={(e) => setNombreForm(e.target.value)}
-                value={nombreForm}/>
-            <label htmlFor="numero">Ingrese su Número de Telefono</label>
-            <label className="text-gray-600" htmlFor="numero">Ejemplo 2364...</label>
+        
+        {/* Imagen del logo con texto alternativo */}
+        <img className="mb-2 w-36 h-36" src={logo} alt="Logo del Jardín" />
+        
+        {/* Formulario de registro */}
+        <form className="mt-8 grid text-center" onSubmit={registrar} aria-label="Formulario de registro">
+            {/* Campo de nombre */}
+            <label htmlFor="nombre" className="mb-1">
+            Ingrese su Nombre
+            </label>
             <input
-                type="number"
-                id="numero"
-                className='appearance-none my-2 border-b-2 border-green-400'
-                required
-                value={numeroForm}
-                onChange={(e) => setNumeroForm(e.target.value)}/>
-            <a className='mt-4' href="/Login">Iniciar Sesión</a>
-            <input type="submit" value="Registrarse" className='mt-2 border-2 text-green-700 border-green-500 p-2 rounded-full'/>
+            type="text"
+            id="nombre"
+            required
+            className="my-2 border-b-2 border-green-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+            onChange={(e) => setNombreForm(e.target.value)}
+            value={nombreForm}
+            aria-required="true"
+            />
+            
+            {/* Campo de número de teléfono */}
+            <label htmlFor="numero" className="mb-1">
+            Ingrese su Número de Teléfono
+            </label>
+            <label className="text-gray-600" htmlFor="numero">
+            Ejemplo: 2364...
+            </label>
+            <input
+            type="number"
+            id="numero"
+            required
+            className="appearance-none my-2 border-b-2 border-green-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+            value={numeroForm}
+            onChange={(e) => setNumeroForm(e.target.value)}
+            aria-required="true"
+            />
+            
+            {/* Enlace para iniciar sesión */}
+            <a
+            className="mt-4 text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-green-500"
+            href="/Login"
+            role="button"
+            aria-label="Ir a la página de inicio de sesión"
+            tabindex="0"
+            >
+            Iniciar Sesión
+            </a>
+            
+            {/* Botón de envío */}
+            <input
+            type="submit"
+            value="Registrarse"
+            className="mt-2 border-2 text-green-700 border-green-500 p-2 rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
+            aria-label="Enviar formulario de registro"
+            />
         </form>
-
     </div>
   )
 }

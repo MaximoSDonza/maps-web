@@ -64,24 +64,40 @@ const Home = () => {
     }
     
     return (
-        <div className='grid text-lg text-center justify-center mt-12 mb-24'>
+        <div className="grid text-lg text-center justify-center mt-12 mb-24">
             {!isPlaying ? (
                 <>
-                    <h2 className='text-2xl mb-14'>Hola <b>{userName}</b></h2>
-                    <form className='grid justify-items-center' onSubmit={handleSubmit}>
-                        <input type="number" name='evento' value={1} hidden />
-                        <p className='mt-32'>¡Vamos a Jugar!</p>
-                        <button
-                            type="submit"
-                            className="rounded-full w-20 h-20 p-4 bg-green-300 mt-4 submit"
-                        >
-                            <i className="fa-solid fa-play"></i>
-                        </button>
-                    </form>
+                {/* Saludo al usuario */}
+                <h2 className="text-2xl mb-14">
+                    Hola <b>{userName}</b>
+                </h2>
+
+                {/* Formulario para iniciar el juego */}
+                <form className="grid justify-items-center" onSubmit={handleSubmit} aria-label="Formulario para iniciar el juego">
+                    {/* Campo oculto con el valor de evento */}
+                    <input
+                    type="number"
+                    name="evento"
+                    value={1}
+                    hidden
+                    aria-hidden="true"
+                    />
+                    
+                    <p className="mt-32">¡Vamos a Jugar!</p>
+
+                    {/* Botón de inicio accesible */}
+                    <button
+                    type="submit"
+                    className="rounded-full w-20 h-20 p-4 bg-green-300 mt-4 submit focus:outline-none focus:ring-2 focus:ring-green-500"
+                    aria-label="Iniciar juego"
+                    >
+                    <i className="fa-solid fa-play" aria-hidden="true"></i>
+                    </button>
+                </form>
                 </>
             ) : (
-                <div className='playing-indicator'>
-                    <Juego />
+                <div className="playing-indicator">
+                <Juego />
                 </div>
             )}
         </div>
