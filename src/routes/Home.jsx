@@ -82,7 +82,7 @@ const Home = () => {
                     hidden
                     aria-hidden="true"
                     />
-                    
+
                     <p className="mt-32">¡Vamos a Jugar!</p>
 
                     {/* Botón de inicio accesible */}

@@ -623,9 +623,10 @@ const Admin = () => {
             type="file"
             accept="image/*"
             onChange={handleFileChange}
+            required
             />
             <label htmlFor="descripcionPista" className="mt-4">Descripción de la Pista</label>
-            <input className="border-b-2 border-green-400 mt-2" id="descripcionPista" name="pista" type="text" required />
+            <input className="border-b-2 border-green-400 mt-2" id="descripcionPista" name="pista" type="text" />
             <input type="text" name="form" value="pista" hidden />
             <input className="w-40 text-white bg-green-500 rounded-full p-2 mt-5" type="submit" value="Agregar" />
         </form>

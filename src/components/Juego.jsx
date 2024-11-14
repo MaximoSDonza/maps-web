@@ -186,23 +186,32 @@ const Juego = () => {
         <div>
             {final ? (
                 <div>
-                {collage && (
-                    <div>
-                    <img
-                        className="w-96 h-96"
-                        src={`data:image/png;base64,${collage}`}
-                        alt="Collage final generado"
-                        onLoad={() => setFinalLoad(true)}
-                    />
-                    <button
-                        className="w-40 text-white bg-green-500 rounded-full p-2 my-3"
-                        onClick={downloadCollage}
-                        aria-label="Descargar el collage generado"
-                    >
-                        Descargar Collage
-                    </button>
-                    </div>
-                )}
+                    {collage && (
+                        <div className="flex flex-col items-center justify-center mt-6 mb-6">
+                            <iframe
+                            className="w-full md:w-[560px] md:h-[315px] h-auto"
+                            src="https://www.youtube.com/embed/G06DADYryUY?si=j5aOO2E5i6OKljMC"
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                            ></iframe>
+                            <img
+                            className="w-96 h-96 mt-6"
+                            src={`data:image/png;base64,${collage}`}
+                            alt="Collage final generado"
+                            onLoad={() => setFinalLoad(true)}
+                            />
+                            <button
+                            className="w-40 text-white bg-green-500 rounded-full p-2 my-3"
+                            onClick={downloadCollage}
+                            aria-label="Descargar el collage generado"
+                            >
+                            Descargar Collage
+                            </button>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div>
