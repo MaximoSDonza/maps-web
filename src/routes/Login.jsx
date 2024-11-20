@@ -2,6 +2,7 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import LoadScreen from '../components/LoadScreen';
+import Modal from '../components/Modal';
 import logo from '../assets/logoapp.png';
 const Login = () => {
     const [loading, setLoading] = useState(true);
@@ -9,6 +10,7 @@ const Login = () => {
     const newapiUrl="https://jardinsancayetano.free.nf/API/";
     const [nombreForm, setNombreForm] = useState('');
     const [numeroForm, setNumeroForm] = useState('');
+    const textoModal = "Bienvenidos al juego que te permitirá conocer y recorrer algunos lugares de nuestra ciudad. Una vez que te registraste con tu nombre (usuario) y número de teléfono (contraseña), solo tenés que ir leyendo las pistas que los niños/as te van dando, si conocés de qué se trata te invitamos a ir hasta el lugar y sacarte una foto allí para subirla, también podés subir una que ya tengas guardada o buscar una foto del lugar por las redes. Son 12 maravillosos lugares de nuestra ciudad para recorrerlos, al final se armará un collage con las fotos que subiste y podrás descargarlo para enviarlo a quien prefieras. ¡¡Animate a recorrer nuestra ciudad de manera digital!!!!";
 
     const loguear = (e)=>{
         e.preventDefault();
@@ -108,6 +110,11 @@ const Login = () => {
                 aria-label="Enviar formulario para iniciar sesión"
                 />
             </form>
+
+            <div className="mt-6">
+                {/* Pasar el texto como prop */}
+                <Modal content={textoModal} />
+            </div>
         </div>
     )
 }
