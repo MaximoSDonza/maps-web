@@ -29,22 +29,16 @@ const Admin = () => {
     const newapiUrl="https://jardinsancayetano.free.nf/API/";
     
     useEffect(()=>{
-        const numeroCookie = Cookies.get('numero');
+        const numeroCookie = Cookies.get('userid');
         setCookieValue(numeroCookie);
         if(numeroCookie){
             Axios.get(newapiUrl+"Usuarios/comprobarUsuario.php", {
-                params: {userNumero: numeroCookie}
+                params: {userId: numeroCookie}
             }).then((result) => {
-                if(result.data.result.length>0){    
-                    if(result.data.result[0].users_rango!=1){
-                        window.location.replace("/");
-                    }else{
-                        setTimeout(() => {
-                            setLoading(false);
-                        }, 1500);
-                    }
+                if(result.data.success){    
+                    setLoading(false);
                 }else{
-                    window.location.replace("/Login");
+                    window.location.replace("/");
                 }
             }).catch((error) => {
                 console.error("Hubo un error al comprobar usuario", error);

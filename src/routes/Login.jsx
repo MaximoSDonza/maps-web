@@ -20,7 +20,7 @@ const Login = () => {
                 userNumero: numeroForm
             }).then((result) => {
                 if(result.data.success){
-                    Cookies.set('numero', numeroForm, { expires: 7 });
+                    Cookies.set('userid', result.data.userid, { expires: 7 });
                     alert("Usuario logueado con exito");
                     if(result.data.rank==1){
                         window.location.replace("/Admin");

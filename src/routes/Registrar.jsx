@@ -14,7 +14,7 @@ const Registrar = () => {
 
 
   useEffect(() => {
-    const numeroCookie = Cookies.get('numero');
+    const numeroCookie = Cookies.get('userid');
         if(numeroCookie){
             window.location.replace("/");
         }else{
@@ -35,7 +35,7 @@ const Registrar = () => {
                     alert("Usuario registrado con exito");
                     window.location.replace("/Login");
                 }else{
-                    alert("Error al registrar usuario");
+                    alert(`Error al registrar usuario. ${result.data.message}`);
                 }
             }).catch((error) => {
                 console.error("Hubo un error al registrarse", error);

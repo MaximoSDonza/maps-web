@@ -5,7 +5,7 @@ import LoadScreen from './LoadScreen';
 import Compressor from 'compressorjs';
 
 const Juego = () => {
-    const identifierCookie = Cookies.get('userId');
+    const identifierCookie = Cookies.get('userid');
     const newapiUrl = "https://jardinsancayetano.free.nf/API/";
     const [recarga, setRecarga] = useState(0);
     const [file, setFile] = useState(null);
